@@ -3,8 +3,13 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:quiz_app/data/response/status.dart';
 import 'package:quiz_app/resources/colors.dart';
+import 'package:quiz_app/view_model/question_answer_view_model.dart';
 import 'package:quiz_app/widgets/round_button.dart';
+
+import '../utils/utils.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -14,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  QuestionAnswerViewModel questionAnswerViewModel = QuestionAnswerViewModel();
   static const maxSeconds = 60;
   int seconds = maxSeconds;
   Timer? timer;
@@ -43,35 +49,108 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
         backgroundColor: Colors.transparent,
       ),
-      body: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-              Colors.pink.shade300,
-              Colors.purple.shade300,
-              Colors.blue.shade300
-            ])),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              showTimer(),
-              SizedBox(
-                height: 10.h,
+      body: seconds == 0
+          ? Container()
+          : Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                    Colors.pink.shade300,
+                    Colors.purple.shade300,
+                    Colors.blue.shade300
+                  ])),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    showTimer(),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    RoundButton(
+                        title: "Start",
+                        onPress: () async {
+                          await questionAnswerViewModel
+                              .fetchQuestionAnswerListApi();
+                          log(questionAnswerViewModel
+                              .fetchQuestionAnswerListApi()
+                              .toString());
+
+                          startTimer();
+                        }),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    ChangeNotifierProvider<QuestionAnswerViewModel>(
+                      create: (BuildContext context) => questionAnswerViewModel,
+                      child: Consumer<QuestionAnswerViewModel>(
+                          builder: ((context, value, _) {
+                        log(value.questionAnswerList?.status.toString() ?? '',
+                            name: "status value");
+                        switch (value.questionAnswerList?.status) {
+                          case Status.loading:
+                            return const CircularProgressIndicator(); //
+
+                          case Status.error:
+                            return Text(
+                                value.questionAnswerList?.message.toString() ??
+                                    '');
+                          case Status.completed:
+                            return Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 200.h,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          fit: BoxFit.fill,
+                                          image: NetworkImage(value
+                                                  .questionAnswerList
+                                                  ?.data!
+                                                  .question
+                                                  .toString() ??
+                                              ""))),
+                                ),
+                                Wrap(
+                                    children: value.displaySolution
+                                        .map((e) => ListTile(
+                                              tileColor: Colors.grey,
+                                              selectedTileColor: Colors.green,
+                                              onTap: () async {
+                                                if (value.questionAnswerList
+                                                        ?.data!.solution ==
+                                                    e) {
+                                                  Utils.snackBar(
+                                                      "Correct Answer",
+                                                      Colors.green,
+                                                      context);
+                                                  Future.delayed(const Duration(
+                                                      seconds: 2));
+                                                  await questionAnswerViewModel
+                                                      .fetchQuestionAnswerListApi();
+                                                } else {
+                                                  Utils.snackBar("Wrong Answer",
+                                                      Colors.red, context);
+                                                }
+                                              },
+                                              title: Text(e.toString()),
+                                            ))
+                                        .toList())
+                              ],
+                            );
+                        }
+                        return Container();
+                      })),
+                    )
+                  ],
+                ),
               ),
-              RoundButton(
-                  title: "Start",
-                  onPress: () {
-                    startTimer();
-                  })
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 

@@ -1,5 +1,5 @@
 abstract class BaseApiServices {
-  Future<dynamic> getGetApiResponse(String url);
+  Future<dynamic> getApiResponse(String url);
 
   //Future<dynamic> getPostApiResponse(String url, dynamic data);
 }
