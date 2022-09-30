@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:quiz_app/res/colors.dart';
+import 'package:quiz_app/resources/colors.dart';
 
+// ignore: must_be_immutable
 class OnboardingContents extends StatelessWidget {
   String text;
   String image;

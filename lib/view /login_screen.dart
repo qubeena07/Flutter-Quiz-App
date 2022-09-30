@@ -1,7 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:quiz_app/res/colors.dart';
+import 'package:quiz_app/resources/colors.dart';
+
 import 'package:quiz_app/utils/routes/routes_name.dart';
 import 'package:quiz_app/widgets/round_button.dart';
 
@@ -149,7 +150,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: 18.h,
                     ),
-                    RoundButton(title: "Login", onPress: () {})
+                    RoundButton(
+                        title: "Login",
+                        onPress: () {
+                          Navigator.pushNamed(context, RoutesName.home);
+                        })
                   ],
                 ),
               ),

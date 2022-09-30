@@ -39,6 +39,7 @@ dependencies:
   fluttertoast: ^8.0.9
   another_flushbar: ^1.12.29
   flutter_screenutil: ^5.5.4
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:

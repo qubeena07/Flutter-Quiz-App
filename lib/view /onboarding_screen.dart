@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_app/res/colors.dart';
+import 'package:quiz_app/resources/colors.dart';
+
 import 'package:quiz_app/utils/routes/routes_name.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 

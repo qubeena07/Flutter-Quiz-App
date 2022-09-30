@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:quiz_app/res/colors.dart';
+import 'package:quiz_app/resources/colors.dart';
 
 class RoundButton extends StatelessWidget {
   final String title;
