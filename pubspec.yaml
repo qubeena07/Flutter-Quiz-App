@@ -41,6 +41,9 @@ dependencies:
   flutter_screenutil: ^5.5.4
   http: ^0.13.5
   provider: ^6.0.3
+  cloud_firestore: ^3.5.1
+  firebase_auth: ^3.11.2
+  email_validator: ^2.1.17
 
 dev_dependencies:
   flutter_test:

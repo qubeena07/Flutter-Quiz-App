@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:quiz_app/data/response/status.dart';
 import 'package:quiz_app/resources/colors.dart';
+import 'package:quiz_app/utils/routes/routes_name.dart';
 import 'package:quiz_app/view_model/question_answer_view_model.dart';
 import 'package:quiz_app/widgets/round_button.dart';
 
@@ -37,13 +39,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
     log(seconds.toString(), name: "seconds value");
     return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pushReplacementNamed(context, RoutesName.login);
+                FirebaseAuth.instance.signOut();
               },
               icon: const Icon(Icons.logout))
         ],
@@ -67,6 +71,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    Text(user!.email ?? "no user"),
+                    SizedBox(
+                      height: 10.h,
+                    ),
                     showTimer(),
                     SizedBox(
                       height: 10.h,

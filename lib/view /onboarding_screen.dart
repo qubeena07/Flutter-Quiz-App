@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/resources/colors.dart';
-
 import 'package:quiz_app/utils/routes/routes_name.dart';
+
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../widgets/onboarding_contents.dart';
@@ -65,7 +65,19 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   primary: Colors.white,
                   backgroundColor: AppColors.kPrimaryColor,
                   minimumSize: const Size.fromHeight(80)),
-              onPressed: () async {
+              onPressed: ()
+                  // async {
+                  //   StreamBuilder<User?>(
+                  //       stream: FirebaseAuth.instance.authStateChanges(),
+                  //       builder: (context, snapshot) {
+                  //         if (snapshot.hasData) {
+                  //           return const HomeScreen();
+
+                  //         } else {
+                  //           return const LoginScreen();
+                  //         }
+                  //       });
+                  {
                 Navigator.pushReplacementNamed(context, RoutesName.login);
                 //final sp = await SharedPreferences.getInstance();
                 //sp.setBool('showHome', true);

@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quiz_app/resources/colors.dart';
 
 import 'package:quiz_app/utils/routes/routes_name.dart';
+import 'package:quiz_app/utils/utils.dart';
 import 'package:quiz_app/widgets/round_button.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,8 +18,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _showPassword = true;
 
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   FocusNode emailFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
@@ -26,8 +28,8 @@ class _LoginScreenState extends State<LoginScreen> {
   void dispose() {
     super.dispose();
 
-    _emailController.dispose();
-    _passwordController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
 
     emailFocusNode.dispose();
     passwordFocusNode.dispose();
@@ -92,13 +94,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       width: 250.w,
                       child: TextFormField(
-                        controller: _emailController,
+                        controller: emailController,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: const InputDecoration(
                           border: InputBorder.none,
                           fillColor: Color.fromARGB(161, 222, 233, 242),
                           filled: true,
                           label: Text(
-                            "Username",
+                            "Email",
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w300,
@@ -117,7 +120,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       width: 250.w,
                       child: TextFormField(
-                        controller: _passwordController,
+                        controller: passwordController,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w300,
@@ -150,11 +154,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: 18.h,
                     ),
-                    RoundButton(
-                        title: "Login",
-                        onPress: () {
-                          Navigator.pushNamed(context, RoutesName.home);
-                        })
+                    RoundButton(title: "Login", onPress: signIn
+                        // Navigator.pushNamed(context, RoutesName.home);
+                        )
                   ],
                 ),
               ),
@@ -185,5 +187,19 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  Future signIn() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim());
+      Utils.toastMessage("Login Sucessfull");
+
+      await Navigator.pushReplacementNamed(context, RoutesName.home);
+    } on FirebaseAuthException catch (e) {
+      Utils.flushBarErrorMessage(e.toString(), context);
+      print(e);
+    }
   }
 }
