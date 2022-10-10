@@ -41,6 +41,7 @@ dependencies:
   flutter_screenutil: ^5.5.4
   http: ^0.13.5
   provider: ^6.0.3
+  cloud_firestore: ^3.5.1
 
 dev_dependencies:
   flutter_test:
