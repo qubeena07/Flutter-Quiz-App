@@ -78,7 +78,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   //         }
                   //       });
                   {
-                Navigator.pushReplacementNamed(context, RoutesName.login);
+                Navigator.pushReplacementNamed(context, RoutesName.loginScreen);
                 //final sp = await SharedPreferences.getInstance();
                 //sp.setBool('showHome', true);
 

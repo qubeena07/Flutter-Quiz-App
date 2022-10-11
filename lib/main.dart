@@ -6,6 +6,7 @@ import 'package:quiz_app/utils/routes/routes_name.dart';
 import 'package:quiz_app/view%20/onboarding_screen.dart';
 import 'package:quiz_app/view_model/question_answer_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:quiz_app/view_model/score_view_model.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,19 +19,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => QuestionAnswerViewModel(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => QuestionAnswerViewModel(),
+        ),
+        ChangeNotifierProvider(create: (_) => ScoreViewModel())
+      ],
       child: ScreenUtilInit(
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) {
           return MaterialApp(
+              debugShowCheckedModeBanner: false,
               title: 'Flutter Demo',
               theme: ThemeData(
                 primarySwatch: Colors.blue,
               ),
               home: const OnboardingScreen(),
-              initialRoute: RoutesName.onBoarding,
+              initialRoute: RoutesName.onBoardingScreen,
               onGenerateRoute: Routes.generateRoute);
         },
       ),

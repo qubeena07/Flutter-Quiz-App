@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: const BoxDecoration(color: Colors.white),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // SizedBox(height: 10.h),
               Container(
@@ -56,10 +56,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         fit: BoxFit.contain,
                         image: AssetImage("assets/logo.png"))),
               ),
-
-              // SizedBox(
-              //   height: 10.h,
-              // ),
 
               Container(
                 width: 300.w,
@@ -172,7 +168,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextSpan(
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            Navigator.pushNamed(context, RoutesName.register);
+                            Navigator.pushNamed(
+                                context, RoutesName.registerScreen);
                           },
                         text: 'Register Here',
                         style: TextStyle(
@@ -196,7 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
           password: passwordController.text.trim());
       Utils.toastMessage("Login Sucessfull");
 
-      await Navigator.pushReplacementNamed(context, RoutesName.home);
+      await Navigator.pushReplacementNamed(context, RoutesName.welcomeScreen);
     } on FirebaseAuthException catch (e) {
       Utils.flushBarErrorMessage(e.toString(), context);
       print(e);

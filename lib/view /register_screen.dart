@@ -231,7 +231,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     TextSpan(
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            Navigator.pushNamed(context, RoutesName.login);
+                            Navigator.pushNamed(
+                                context, RoutesName.loginScreen);
                           },
                         text: 'Login Here',
                         style: TextStyle(
@@ -257,7 +258,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             email: emailController.text.trim(),
             password: passwordController.text.trim());
         Utils.toastMessage("Register Sucessfull");
-        await Navigator.pushReplacementNamed(context, RoutesName.home);
+        await Navigator.pushReplacementNamed(context, RoutesName.homeScreen);
       } on FirebaseAuthException catch (e) {
         Utils.flushBarErrorMessage(e.message!, context);
         print(e);
