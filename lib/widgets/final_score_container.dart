@@ -34,7 +34,16 @@ class FinalScoreContainer extends StatelessWidget {
             RoundButton(
                 title: "Try again",
                 onPress: (() => Navigator.pushReplacementNamed(
-                    context, RoutesName.homeScreen)))
+                    context, RoutesName.readyScreen))),
+            SizedBox(
+              height: 20.h,
+            ),
+            RoundButton(
+                title: "Home Page",
+                onPress: () {
+                  Navigator.pushReplacementNamed(
+                      context, RoutesName.welcomeScreen);
+                }),
           ],
         ),
       ),

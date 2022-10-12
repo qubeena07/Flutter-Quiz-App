@@ -8,6 +8,7 @@ import 'package:quiz_app/data/response/status.dart';
 import 'package:quiz_app/resources/colors.dart';
 import 'package:quiz_app/view_model/question_answer_view_model.dart';
 import 'package:quiz_app/view_model/score_view_model.dart';
+import 'package:quiz_app/widgets/drawer_widget.dart';
 
 import '../widgets/final_score_container.dart';
 
@@ -20,8 +21,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   QuestionAnswerViewModel questionAnswerViewModel = QuestionAnswerViewModel();
+
   ScoreViewModel scoreViewModel = ScoreViewModel();
-  static const maxSeconds = 300;
+  static const maxSeconds = 120;
   int seconds = maxSeconds;
   Timer? timer;
   List<String> indexList = ['a)', 'b)', 'c)', 'd)'];
@@ -56,77 +58,56 @@ class _HomeScreenState extends State<HomeScreen> {
     // log(seconds.toString(), name: "seconds value");
     return Scaffold(
       appBar: AppBar(
-        title: showTimer(),
+        title: (seconds == 0) ? null : showTimer(),
         centerTitle: true,
-        actions: [
-          GestureDetector(
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Quit",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ),
-              ),
-              onTap: () {
-                setState(() {
-                  seconds = 0;
-                });
-              })
+        actions: (seconds == 0)
+            ? null
+            : [
+                GestureDetector(
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Quit",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ),
+                    onTap: () {
+                      setState(() {
+                        seconds = 0;
+                      });
+                    })
 
-          // IconButton(
-          //     onPressed: () {
-          //       Navigator.pushReplacementNamed(context, RoutesName.loginScreen);
-          //       FirebaseAuth.instance.signOut();
-          //     },
-          //     icon: const Icon(
-          //       Icons.logout,
-          //       color: Colors.black,
-          //     )),
-        ],
+                // IconButton(
+                //     onPressed: () {
+                //       Navigator.pushReplacementNamed(context, RoutesName.loginScreen);
+                //       FirebaseAuth.instance.signOut();
+                //     },
+                //     icon: const Icon(
+                //       Icons.logout,
+                //       color: Colors.black,
+                //     )),
+              ],
         backgroundColor: AppColors.kPrimaryColor,
       ),
+      drawer: (seconds == 0) ? null : const DrawerWidget(),
       body: seconds == 0
           ? FinalScoreContainer(
               finalScore: scoreViewModel.totalScore,
             )
           : Container(
               width: double.infinity,
-              decoration:
-                  const BoxDecoration(color: Color.fromARGB(255, 236, 236, 236)
-                      // gradient: LinearGradient(
-                      //     begin: Alignment.topRight,
-                      //     end: Alignment.bottomLeft,
-                      //     colors: [
-                      //   Colors.pink.shade300,
-                      //   Colors.purple.shade300,
-                      //   Colors.blue.shade300
-                      // ])
-                      ),
+              decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 236, 236, 236)),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    // showTimer(),
-                    // SizedBox(
-                    //   height: 10.h,
-                    // ),
-                    // RoundButton(
-                    //     title: "Start",
-                    //     onPress: () async {
-                    //       await questionAnswerViewModel
-                    //           .fetchQuestionAnswerListApi();
-                    //       log(questionAnswerViewModel
-                    //           .fetchQuestionAnswerListApi()
-                    //           .toString());
-                    //       scoreViewModel.startTimer();
-                    //     }),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -196,17 +177,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                                 // color: Colors.yellow,
                                                 child: ListTile(
-                                                  trailing: (answerIndicator)
-                                                      ? (value
-                                                                  .questionAnswerList
-                                                                  ?.data!
-                                                                  .solution ==
-                                                              e)
-                                                          ? const Icon(
-                                                              Icons.check)
-                                                          : const Icon(Icons
-                                                              .wrong_location)
-                                                      : null,
+                                                  // trailing: (answerIndicator)
+                                                  //     ? (value
+                                                  //                 .questionAnswerList
+                                                  //                 ?.data!
+                                                  //                 .solution ==
+                                                  //             e)
+                                                  //         ? const Icon(
+                                                  //             Icons.check)
+                                                  //         : const Icon(Icons
+                                                  //             .wrong_location)
+                                                  //     : null,
                                                   leading: Text(
                                                     indexList[value
                                                         .displaySolution
@@ -273,17 +254,19 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget showTime() {
-    return Text(
-      seconds.toString(),
-      style: TextStyle(
-          color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.bold),
+    return FittedBox(
+      child: Text(
+        seconds.toString(),
+        style: TextStyle(
+            color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.w500),
+      ),
     );
   }
 
   Widget showTimer() {
     return SizedBox(
-      height: 40,
-      width: 40,
+      height: 45,
+      width: 45,
       child: Stack(
         fit: StackFit.expand,
         children: [

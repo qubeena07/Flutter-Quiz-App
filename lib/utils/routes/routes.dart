@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/utils/routes/routes_name.dart';
+import 'package:quiz_app/view%20/forgot_password_screen.dart';
 import 'package:quiz_app/view%20/home_screen.dart';
 import 'package:quiz_app/view%20/login_screen.dart';
 import 'package:quiz_app/view%20/onboarding_screen.dart';
+import 'package:quiz_app/view%20/ready_screen.dart';
 import 'package:quiz_app/view%20/welcome_screen.dart';
 import 'package:quiz_app/widgets/final_score_container.dart';
 
@@ -34,6 +36,13 @@ class Routes {
         return MaterialPageRoute(
             builder: (BuildContext context) => const FinalScoreContainer());
 
+      case RoutesName.readyScreen:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const ReadyScreen());
+
+      case RoutesName.forgotPasswordScreen:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const ForgotPasswordScreen());
       default:
         return MaterialPageRoute(builder: (_) {
           return const Scaffold(

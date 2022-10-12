@@ -258,7 +258,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             email: emailController.text.trim(),
             password: passwordController.text.trim());
         Utils.toastMessage("Register Sucessfull");
-        await Navigator.pushReplacementNamed(context, RoutesName.homeScreen);
+        await Navigator.pushNamedAndRemoveUntil(
+            context, RoutesName.welcomeScreen, (route) => false);
       } on FirebaseAuthException catch (e) {
         Utils.flushBarErrorMessage(e.message!, context);
         print(e);

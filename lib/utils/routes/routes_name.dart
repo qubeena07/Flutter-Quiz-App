@@ -11,4 +11,8 @@ class RoutesName {
   static const String welcomeScreen = "welcome_screen";
   //route for final score container screen
   static const String finalScoreConatiner = "final_score_container";
+  //route for ready screen
+  static const String readyScreen = "ready_screen";
+  //route for forgot password screen
+  static const String forgotPasswordScreen = "forgot_password_screen";
 }

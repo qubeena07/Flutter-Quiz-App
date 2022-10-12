@@ -157,11 +157,25 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(
+                height: 10.h,
+              ),
+              GestureDetector(
+                child: Text("Forgot Password ?",
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 17.sp,
+                        color: AppColors.kPrimaryColor)),
+                onTap: () {
+                  Navigator.pushNamed(context, RoutesName.forgotPasswordScreen);
+                },
+              ),
+              SizedBox(
                 height: 8.h,
               ),
               RichText(
                 text: TextSpan(
-                  text: "Don't have an account ?",
+                  text: "Don't have an account? ",
                   style:
                       TextStyle(fontSize: 16.sp, color: AppColors.kTextColor),
                   children: [
@@ -173,8 +187,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                         text: 'Register Here',
                         style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14.sp,
+                            decoration: TextDecoration.underline,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16.sp,
                             color: AppColors.kPrimaryColor)),
                   ],
                 ),

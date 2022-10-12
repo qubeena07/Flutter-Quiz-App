@@ -23,6 +23,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        iconTheme: const IconThemeData(
+          color: Colors.black, //change your color here
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        actions: [
+          IconButton(
+              onPressed: () => Navigator.pushReplacementNamed(
+                  context, RoutesName.loginScreen),
+              icon: const Icon(Icons.logout))
+        ],
+      ),
       body: Container(
         padding: const EdgeInsets.all(30),
         child: Center(
@@ -57,7 +70,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20.sp),
               ),
               SizedBox(
-                height: 5.h,
+                height: 10.h,
               ),
               RoundButton(
                   title: "Start",
@@ -69,8 +82,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     //         .toString(),
                     //     name: "log value");
                     Navigator.pushReplacementNamed(
-                        context, RoutesName.homeScreen);
-                  })
+                        context, RoutesName.readyScreen);
+                  }),
             ],
           ),
         ),
