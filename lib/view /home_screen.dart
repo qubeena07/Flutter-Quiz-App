@@ -21,13 +21,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   QuestionAnswerViewModel questionAnswerViewModel = QuestionAnswerViewModel();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   ScoreViewModel scoreViewModel = ScoreViewModel();
   static const maxSeconds = 120;
   int seconds = maxSeconds;
   Timer? timer;
+  int solutionIndicator = -1;
   List<String> indexList = ['a)', 'b)', 'c)', 'd)'];
-  bool answerIndicator = false;
 
   void startTimer() {
     Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -36,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
         seconds = maxSeconds;
         scoreViewModel.resetTotalScore();
         scoreViewModel.setQuestionNum();
+        // questionAnswerViewModel.dispose();
       } else {
         setState(() => seconds--);
       }
@@ -57,44 +59,53 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     // log(seconds.toString(), name: "seconds value");
     return Scaffold(
-      appBar: AppBar(
-        title: (seconds == 0) ? null : showTimer(),
-        centerTitle: true,
-        actions: (seconds == 0)
-            ? null
-            : [
-                GestureDetector(
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Quit",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                    ),
-                    onTap: () {
-                      setState(() {
-                        seconds = 0;
-                      });
-                    })
+      key: scaffoldKey,
+      appBar: (seconds == 0)
+          ? null
+          : AppBar(
+              leading: IconButton(
+                  onPressed: () => scaffoldKey.currentState!.openDrawer(),
+                  icon: const Icon(
+                    Icons.settings,
+                  )),
+              elevation: 0.0,
+              title: (seconds == 0) ? null : showTimer(),
+              centerTitle: true,
+              actions: (seconds == 0)
+                  ? null
+                  : [
+                      GestureDetector(
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Quit",
+                                style: TextStyle(
+                                    //color: Colors.white,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                          ),
+                          onTap: () {
+                            setState(() {
+                              seconds = 0;
+                            });
+                          })
 
-                // IconButton(
-                //     onPressed: () {
-                //       Navigator.pushReplacementNamed(context, RoutesName.loginScreen);
-                //       FirebaseAuth.instance.signOut();
-                //     },
-                //     icon: const Icon(
-                //       Icons.logout,
-                //       color: Colors.black,
-                //     )),
-              ],
-        backgroundColor: AppColors.kPrimaryColor,
-      ),
-      drawer: (seconds == 0) ? null : const DrawerWidget(),
+                      // IconButton(
+                      //     onPressed: () {
+                      //       Navigator.pushReplacementNamed(context, RoutesName.loginScreen);
+                      //       FirebaseAuth.instance.signOut();
+                      //     },
+                      //     icon: const Icon(
+                      //       Icons.logout,
+                      //       color: Colors.black,
+                      //     )),
+                    ],
+              backgroundColor: (seconds == 0) ? null : AppColors.kPrimaryColor,
+            ),
+      drawer: const DrawerWidget(),
       body: seconds == 0
           ? FinalScoreContainer(
               finalScore: scoreViewModel.totalScore,
@@ -102,7 +113,8 @@ class _HomeScreenState extends State<HomeScreen> {
           : Container(
               width: double.infinity,
               decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 236, 236, 236)),
+                  //color: Color.fromARGB(255, 236, 236, 236)
+                  ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -177,52 +189,78 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                                 // color: Colors.yellow,
                                                 child: ListTile(
-                                                  // trailing: (answerIndicator)
-                                                  //     ? (value
-                                                  //                 .questionAnswerList
-                                                  //                 ?.data!
-                                                  //                 .solution ==
-                                                  //             e)
-                                                  //         ? const Icon(
-                                                  //             Icons.check)
-                                                  //         : const Icon(Icons
-                                                  //             .wrong_location)
-                                                  //     : null,
+                                                  trailing: Visibility(
+                                                      visible:
+                                                          (solutionIndicator ==
+                                                              value
+                                                                  .displaySolution
+                                                                  .indexOf(e)),
+                                                      child: (value
+                                                                  .questionAnswerList
+                                                                  ?.data!
+                                                                  .solution ==
+                                                              e)
+                                                          ? const Icon(
+                                                              Icons.check)
+                                                          : const Icon(
+                                                              Icons.close)),
                                                   leading: Text(
                                                     indexList[value
                                                         .displaySolution
                                                         .indexOf(e)],
                                                     style: TextStyle(
-                                                        color: Colors.white,
+                                                        // color: Colors.white,
                                                         fontWeight:
                                                             FontWeight.w400,
                                                         fontSize: 15.sp),
                                                   ),
-                                                  tileColor: Colors.blue,
-                                                  selectedColor: Colors.green,
+
+                                                  //tileColor: Colors.blue,
+                                                  // selectedColor: Colors.green,
 
                                                   // selectedTileColor:
                                                   //     Colors.green,
                                                   onTap: () async {
+                                                    setState(() {
+                                                      solutionIndicator = value
+                                                          .displaySolution
+                                                          .indexOf(e);
+                                                    });
                                                     if (value.questionAnswerList
                                                             ?.data!.solution ==
                                                         e) {
-                                                      answerIndicator = true;
                                                       scoreViewModel
                                                           .setTotalScore();
 
                                                       scoreViewModel
                                                           .setQuestionNum();
                                                       Future.delayed(
-                                                          const Duration(
-                                                              seconds: 1));
+                                                        const Duration(
+                                                            seconds: 1),
+                                                        () async {
+                                                          await questionAnswerViewModel
+                                                              .fetchQuestionAnswerListApi();
+                                                          setState(() {
+                                                            solutionIndicator =
+                                                                -1;
+                                                          });
+                                                        },
+                                                      );
 
-                                                      await questionAnswerViewModel
-                                                          .fetchQuestionAnswerListApi();
                                                       // answerIndicator = false;
                                                     } else {
-                                                      await questionAnswerViewModel
-                                                          .fetchQuestionAnswerListApi();
+                                                      Future.delayed(
+                                                        const Duration(
+                                                            seconds: 1),
+                                                        () async {
+                                                          await questionAnswerViewModel
+                                                              .fetchQuestionAnswerListApi();
+                                                          setState(() {
+                                                            solutionIndicator =
+                                                                -1;
+                                                          });
+                                                        },
+                                                      );
 
                                                       scoreViewModel
                                                           .setQuestionNum();
@@ -231,7 +269,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   title: Text(
                                                     e.toString(),
                                                     style: TextStyle(
-                                                        color: Colors.white,
+                                                        //color: Colors.white,
                                                         fontWeight:
                                                             FontWeight.w400,
                                                         fontSize: 20.sp),
@@ -258,7 +296,9 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Text(
         seconds.toString(),
         style: TextStyle(
-            color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.w500),
+            //color: Colors.white,
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w500),
       ),
     );
   }
@@ -274,7 +314,7 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Colors.red,
             value: seconds / maxSeconds,
             strokeWidth: 4,
-            backgroundColor: AppColors.kBgColor,
+            //backgroundColor: AppColors.kBgColor,
           ),
           Center(
             child: showTime(),

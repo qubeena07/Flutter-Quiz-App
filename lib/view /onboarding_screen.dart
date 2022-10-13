@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quiz_app/resources/colors.dart';
 import 'package:quiz_app/utils/routes/routes_name.dart';
 
@@ -36,6 +37,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        color: Colors.white,
         margin: const EdgeInsets.only(bottom: 80),
         child: PageView(
           controller: controller,
@@ -65,19 +67,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   primary: Colors.white,
                   backgroundColor: AppColors.kPrimaryColor,
                   minimumSize: const Size.fromHeight(80)),
-              onPressed: ()
-                  // async {
-                  //   StreamBuilder<User?>(
-                  //       stream: FirebaseAuth.instance.authStateChanges(),
-                  //       builder: (context, snapshot) {
-                  //         if (snapshot.hasData) {
-                  //           return const HomeScreen();
-
-                  //         } else {
-                  //           return const LoginScreen();
-                  //         }
-                  //       });
-                  {
+              onPressed: () {
                 Navigator.pushReplacementNamed(context, RoutesName.loginScreen);
                 //final sp = await SharedPreferences.getInstance();
                 //sp.setBool('showHome', true);
@@ -89,8 +79,9 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                 style: TextStyle(fontSize: 32),
               ))
           : Container(
+              color: Colors.white,
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              height: 60,
+              height: 80.h,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -98,7 +89,10 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                       onPressed: () {
                         controller.jumpToPage(2);
                       },
-                      child: const Text("SKIP")),
+                      child: Text(
+                        "SKIP",
+                        style: TextStyle(color: AppColors.kPrimaryColor),
+                      )),
                   Center(
                     child: SmoothPageIndicator(
                       controller: controller,
@@ -118,7 +112,8 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                             duration: const Duration(milliseconds: 500),
                             curve: Curves.bounceInOut);
                       },
-                      child: const Text("NEXT")),
+                      child: Text("NEXT",
+                          style: TextStyle(color: AppColors.kPrimaryColor))),
                 ],
               ),
             ),

@@ -5,6 +5,7 @@ import 'package:quiz_app/utils/routes/routes_name.dart';
 import 'package:quiz_app/view%20/home_screen.dart';
 import 'package:quiz_app/view_model/question_answer_view_model.dart';
 import 'package:quiz_app/view_model/score_view_model.dart';
+import 'package:quiz_app/widgets/drawer_widget.dart';
 import 'package:quiz_app/widgets/round_button.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -16,6 +17,7 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   HomeScreen homeScreen = const HomeScreen();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   final user = FirebaseAuth.instance.currentUser;
   QuestionAnswerViewModel questionAnswerViewModel = QuestionAnswerViewModel();
@@ -23,19 +25,22 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Colors.black, //change your color here
+        leading: IconButton(
+          onPressed: () => scaffoldKey.currentState!.openDrawer(),
+          icon: Icon(
+            Icons.settings,
+            color: Theme.of(context).primaryColor,
+          ),
         ),
+        // iconTheme: const IconThemeData(
+        //   color: Colors.black, //change your color here
+        // ),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        actions: [
-          IconButton(
-              onPressed: () => Navigator.pushReplacementNamed(
-                  context, RoutesName.loginScreen),
-              icon: const Icon(Icons.logout))
-        ],
       ),
+      drawer: const DrawerWidget(),
       body: Container(
         padding: const EdgeInsets.all(30),
         child: Center(
@@ -54,9 +59,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               Text(
                 "Welcome",
                 style: TextStyle(
-                    fontSize: 45.sp,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black),
+                  fontSize: 45.sp,
+                  fontWeight: FontWeight.w400,
+                  //color: Colors.black
+                ),
               ),
               Text(
                 user!.email!.split("@").first,

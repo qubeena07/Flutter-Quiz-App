@@ -67,7 +67,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         blurRadius: 2.0.r)
                   ],
                   color: Colors.white,
-                  // color: kPrimaryColor,
                   borderRadius: BorderRadius.circular(20.r),
                 ),
                 child: Column(
@@ -203,12 +202,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future signIn() async {
     try {
+      FocusScope.of(context).unfocus();
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim());
+
       Utils.toastMessage("Login Sucessfull");
 
-      await Navigator.pushReplacementNamed(context, RoutesName.welcomeScreen);
+      await Navigator.pushNamedAndRemoveUntil(
+          context, RoutesName.welcomeScreen, (route) => false);
     } on FirebaseAuthException catch (e) {
       Utils.flushBarErrorMessage(e.toString(), context);
       print(e);

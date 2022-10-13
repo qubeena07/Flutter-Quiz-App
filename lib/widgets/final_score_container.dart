@@ -17,9 +17,10 @@ class FinalScoreContainer extends StatelessWidget {
             Text(
               "Congratulation!",
               style: TextStyle(
-                  fontSize: 45.sp,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black),
+                fontSize: 45.sp,
+                fontWeight: FontWeight.w400,
+                // color: Colors.black
+              ),
             ),
             SizedBox(
               height: 20.h,
