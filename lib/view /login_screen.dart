@@ -9,8 +9,6 @@ import 'package:quiz_app/utils/utils.dart';
 import 'package:quiz_app/widgets/round_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../data/constants.dart';
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -56,8 +54,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: 150.w,
                 decoration: const BoxDecoration(
                     image: DecorationImage(
-                        fit: BoxFit.contain,
-                        image: AssetImage("assets/logo.png"))),
+                  fit: BoxFit.contain,
+                  //  image: AssetImage("assets/logo.png")
+                )),
               ),
               SizedBox(
                 height: 10.h,
