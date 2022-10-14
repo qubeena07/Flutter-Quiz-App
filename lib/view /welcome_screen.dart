@@ -1,12 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quiz_app/data/constants.dart';
 import 'package:quiz_app/utils/routes/routes_name.dart';
 import 'package:quiz_app/view%20/home_screen.dart';
 import 'package:quiz_app/view_model/question_answer_view_model.dart';
 import 'package:quiz_app/view_model/score_view_model.dart';
 import 'package:quiz_app/widgets/drawer_widget.dart';
 import 'package:quiz_app/widgets/round_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -15,13 +17,29 @@ class WelcomeScreen extends StatefulWidget {
   State<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
+getUseremail() async {
+  final sp = await SharedPreferences.getInstance();
+  return sp.getString(userEmail);
+}
+
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  String useremail = '';
   HomeScreen homeScreen = const HomeScreen();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   final user = FirebaseAuth.instance.currentUser;
+
   QuestionAnswerViewModel questionAnswerViewModel = QuestionAnswerViewModel();
   ScoreViewModel scoreViewModel = ScoreViewModel();
+  @override
+  void didChangeDependencies() async {
+    // TODO: implement didChangeDependencies
+    useremail = await getUseremail();
+    print(useremail);
+    setState(() {});
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,8 +67,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: 150.h,
-                width: 200.w,
+                height: 130.h,
+                width: 150.w,
                 decoration: const BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.contain,
@@ -61,11 +79,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 style: TextStyle(
                   fontSize: 45.sp,
                   fontWeight: FontWeight.w400,
-                  //color: Colors.black
+                  //color: Colors.blackz
                 ),
               ),
               Text(
-                user!.email!.split("@").first,
+                useremail.split("@").first,
                 style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20.sp),
               ),
               SizedBox(

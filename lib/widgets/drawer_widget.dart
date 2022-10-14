@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quiz_app/data/constants.dart';
 import 'package:quiz_app/utils/routes/routes_name.dart';
 import 'package:quiz_app/widgets/change_theme_button_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({Key? key}) : super(key: key);
@@ -31,7 +33,10 @@ class DrawerWidget extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),
-            onTap: () {
+            onTap: () async {
+              final sp = await SharedPreferences.getInstance();
+              sp.setBool(loginFlag, false);
+
               Navigator.pushReplacementNamed(context, RoutesName.loginScreen);
             },
           ),

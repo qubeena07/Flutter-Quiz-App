@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quiz_app/data/constants.dart';
 import 'package:quiz_app/resources/colors.dart';
 import 'package:quiz_app/utils/routes/routes_name.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -67,10 +69,10 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   primary: Colors.white,
                   backgroundColor: AppColors.kPrimaryColor,
                   minimumSize: const Size.fromHeight(80)),
-              onPressed: () {
+              onPressed: () async {
                 Navigator.pushReplacementNamed(context, RoutesName.loginScreen);
-                //final sp = await SharedPreferences.getInstance();
-                //sp.setBool('showHome', true);
+                final prefs = await SharedPreferences.getInstance();
+                prefs.setBool(showLogin1, true);
 
                 // ignore: use_build_context_synchronously
               },

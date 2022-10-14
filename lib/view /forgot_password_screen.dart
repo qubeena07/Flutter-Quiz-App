@@ -43,12 +43,15 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             children: [
               // SizedBox(height: 10.h),
               Container(
-                height: 200.h,
-                width: 200.w,
+                height: 130.h,
+                width: 150.w,
                 decoration: const BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.contain,
                         image: AssetImage("assets/logo.png"))),
+              ),
+              SizedBox(
+                height: 10.h,
               ),
 
               Container(

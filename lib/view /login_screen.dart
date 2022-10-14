@@ -7,6 +7,9 @@ import 'package:quiz_app/resources/colors.dart';
 import 'package:quiz_app/utils/routes/routes_name.dart';
 import 'package:quiz_app/utils/utils.dart';
 import 'package:quiz_app/widgets/round_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../data/constants.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -45,16 +48,19 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: const BoxDecoration(color: Colors.white),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            // mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // SizedBox(height: 10.h),
               Container(
-                height: 200.h,
-                width: 200.w,
+                height: 130.h,
+                width: 150.w,
                 decoration: const BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.contain,
                         image: AssetImage("assets/logo.png"))),
+              ),
+              SizedBox(
+                height: 10.h,
               ),
 
               Container(
@@ -208,6 +214,9 @@ class _LoginScreenState extends State<LoginScreen> {
           password: passwordController.text.trim());
 
       Utils.toastMessage("Login Sucessfull");
+      final sp = await SharedPreferences.getInstance();
+      sp.setString(userEmail, FirebaseAuth.instance.currentUser!.email!);
+      sp.setBool(loginFlag, true);
 
       await Navigator.pushNamedAndRemoveUntil(
           context, RoutesName.welcomeScreen, (route) => false);

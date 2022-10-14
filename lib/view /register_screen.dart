@@ -51,21 +51,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
           decoration: const BoxDecoration(color: Colors.white),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // SizedBox(height: 10.h),
               Container(
-                height: 200.h,
-                width: 200.w,
+                height: 130.h,
+                width: 150.w,
                 decoration: const BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.contain,
                         image: AssetImage("assets/logo.png"))),
               ),
 
-              // SizedBox(
-              //   height: 10.h,
-              // ),
+              SizedBox(
+                height: 10.h,
+              ),
 
               Container(
                 width: 300.w,
