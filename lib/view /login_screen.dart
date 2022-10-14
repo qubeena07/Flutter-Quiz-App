@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quiz_app/data/constants.dart';
 import 'package:quiz_app/resources/colors.dart';
 
 import 'package:quiz_app/utils/routes/routes_name.dart';
@@ -54,9 +55,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: 150.w,
                 decoration: const BoxDecoration(
                     image: DecorationImage(
-                  fit: BoxFit.contain,
-                  //  image: AssetImage("assets/logo.png")
-                )),
+                        fit: BoxFit.contain,
+                        image: AssetImage("assets/logo.png"))),
               ),
               SizedBox(
                 height: 10.h,
