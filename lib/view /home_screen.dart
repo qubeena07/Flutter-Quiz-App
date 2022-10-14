@@ -236,7 +236,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           .setQuestionNum();
                                                       Future.delayed(
                                                         const Duration(
-                                                            microseconds: 200),
+                                                            seconds: 1),
                                                         () async {
                                                           await questionAnswerViewModel
                                                               .fetchQuestionAnswerListApi();
@@ -251,7 +251,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     } else {
                                                       Future.delayed(
                                                         const Duration(
-                                                            microseconds: 200),
+                                                            seconds: 1),
                                                         () async {
                                                           await questionAnswerViewModel
                                                               .fetchQuestionAnswerListApi();

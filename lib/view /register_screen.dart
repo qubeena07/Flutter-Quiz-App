@@ -3,9 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quiz_app/data/constants.dart';
 import 'package:quiz_app/resources/colors.dart';
 import 'package:quiz_app/utils/routes/routes_name.dart';
 import 'package:quiz_app/widgets/round_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/utils.dart';
 
@@ -259,6 +261,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             email: emailController.text.trim(),
             password: passwordController.text.trim());
         Utils.toastMessage("Register Sucessfull");
+
+        final sp = await SharedPreferences.getInstance();
+        sp.setString(userEmail, FirebaseAuth.instance.currentUser!.email!);
         // ignore: use_build_context_synchronously
         await Navigator.pushNamedAndRemoveUntil(
             context, RoutesName.welcomeScreen, (route) => false);
