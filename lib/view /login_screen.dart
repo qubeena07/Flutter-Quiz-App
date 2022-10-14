@@ -217,11 +217,12 @@ class _LoginScreenState extends State<LoginScreen> {
       sp.setString(userEmail, FirebaseAuth.instance.currentUser!.email!);
       sp.setBool(loginFlag, true);
 
+      // ignore: use_build_context_synchronously
       await Navigator.pushNamedAndRemoveUntil(
           context, RoutesName.welcomeScreen, (route) => false);
     } on FirebaseAuthException catch (e) {
       Utils.flushBarErrorMessage(e.toString(), context);
-      print(e);
+      // print(e);
     }
   }
 }

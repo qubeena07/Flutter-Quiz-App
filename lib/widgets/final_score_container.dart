@@ -9,44 +9,42 @@ class FinalScoreContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Congratulation!",
-              style: TextStyle(
-                fontSize: 45.sp,
-                fontWeight: FontWeight.w400,
-                // color: Colors.black
-              ),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Congratulation!",
+            style: TextStyle(
+              fontSize: 45.sp,
+              fontWeight: FontWeight.w400,
+              // color: Colors.black
             ),
-            SizedBox(
-              height: 20.h,
-            ),
-            Text(
-              "Your total score is $finalScore",
-              style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w300),
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-            RoundButton(
-                title: "Try again",
-                onPress: (() => Navigator.pushReplacementNamed(
-                    context, RoutesName.readyScreen))),
-            SizedBox(
-              height: 20.h,
-            ),
-            RoundButton(
-                title: "Home Page",
-                onPress: () {
-                  Navigator.pushReplacementNamed(
-                      context, RoutesName.welcomeScreen);
-                }),
-          ],
-        ),
+          ),
+          SizedBox(
+            height: 20.h,
+          ),
+          Text(
+            "Your total score is $finalScore",
+            style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w300),
+          ),
+          SizedBox(
+            height: 20.h,
+          ),
+          RoundButton(
+              title: "Try again",
+              onPress: (() => Navigator.pushReplacementNamed(
+                  context, RoutesName.readyScreen))),
+          SizedBox(
+            height: 20.h,
+          ),
+          RoundButton(
+              title: "Home Page",
+              onPress: () {
+                Navigator.pushReplacementNamed(
+                    context, RoutesName.welcomeScreen);
+              }),
+        ],
       ),
     );
   }

@@ -176,6 +176,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: TextFormField(
                           controller: confirmPassController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
+                          // ignore: unrelated_type_equality_checks
                           validator: (value1) => value1 == passwordController
                               ? "Password doesn't match"
                               : null,
@@ -258,11 +259,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
             email: emailController.text.trim(),
             password: passwordController.text.trim());
         Utils.toastMessage("Register Sucessfull");
+        // ignore: use_build_context_synchronously
         await Navigator.pushNamedAndRemoveUntil(
             context, RoutesName.welcomeScreen, (route) => false);
       } on FirebaseAuthException catch (e) {
         Utils.flushBarErrorMessage(e.message!, context);
-        print(e);
+        // print(e);
       }
     } else {
       Utils.flushBarErrorMessage("Password doesn't match", context);

@@ -33,9 +33,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   ScoreViewModel scoreViewModel = ScoreViewModel();
   @override
   void didChangeDependencies() async {
-    // TODO: implement didChangeDependencies
     useremail = await getUseremail();
-    print(useremail);
+    // print(useremail);
     setState(() {});
     super.didChangeDependencies();
   }
