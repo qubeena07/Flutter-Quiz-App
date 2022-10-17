@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quiz_app/utils/routes/routes_name.dart';
+import 'package:quiz_app/view%20/welcome_screen.dart';
 import 'package:quiz_app/widgets/round_button.dart';
 
 class FinalScoreContainer extends StatelessWidget {
@@ -33,8 +35,10 @@ class FinalScoreContainer extends StatelessWidget {
           ),
           RoundButton(
               title: "Try again",
-              onPress: (() => Navigator.pushReplacementNamed(
-                  context, RoutesName.readyScreen))),
+              onPress: (() {
+                Navigator.pushReplacementNamed(context, RoutesName.readyScreen);
+                saveScore(score: finalScore!);
+              })),
           SizedBox(
             height: 20.h,
           ),
@@ -43,9 +47,19 @@ class FinalScoreContainer extends StatelessWidget {
               onPress: () {
                 Navigator.pushReplacementNamed(
                     context, RoutesName.welcomeScreen);
+                saveScore(score: finalScore!);
               }),
         ],
       ),
     );
+  }
+
+  Future saveScore({required int score}) async {
+    final useremail = await getUseremail();
+    final totalScore = FirebaseFirestore.instance.collection("score").doc();
+
+    final scoreJson = {"email": useremail, "score": finalScore};
+
+    await totalScore.set(scoreJson);
   }
 }

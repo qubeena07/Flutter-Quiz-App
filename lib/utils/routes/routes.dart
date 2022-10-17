@@ -5,6 +5,7 @@ import 'package:quiz_app/view%20/home_screen.dart';
 import 'package:quiz_app/view%20/login_screen.dart';
 import 'package:quiz_app/view%20/onboarding_screen.dart';
 import 'package:quiz_app/view%20/ready_screen.dart';
+import 'package:quiz_app/view%20/score_history_screen.dart';
 import 'package:quiz_app/view%20/welcome_screen.dart';
 import 'package:quiz_app/widgets/final_score_container.dart';
 
@@ -43,6 +44,11 @@ class Routes {
       case RoutesName.forgotPasswordScreen:
         return MaterialPageRoute(
             builder: (BuildContext context) => const ForgotPasswordScreen());
+
+      case RoutesName.ScoreHistoryScreen:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const ScoreHistoryScreen());
+
       default:
         return MaterialPageRoute(builder: (_) {
           return const Scaffold(

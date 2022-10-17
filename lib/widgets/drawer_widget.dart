@@ -30,17 +30,6 @@ class DrawerWidget extends StatelessWidget {
               ),
             )),
           ),
-          ListTile(
-            leading: const Icon(Icons.logout),
-            title: const Text('Logout'),
-            onTap: () async {
-              final sp = await SharedPreferences.getInstance();
-              sp.setBool(loginFlag, false);
-
-              // ignore: use_build_context_synchronously
-              Navigator.pushReplacementNamed(context, RoutesName.loginScreen);
-            },
-          ),
           Row(
             children: [
               const ChangeThemeButtonWidget(),
@@ -53,6 +42,31 @@ class DrawerWidget extends StatelessWidget {
               )
             ],
           ),
+          ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text('Home Screen'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, RoutesName.welcomeScreen);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text('Logout'),
+            onTap: () async {
+              final sp = await SharedPreferences.getInstance();
+              sp.setBool(loginFlag, false);
+
+              // ignore: use_build_context_synchronously
+              Navigator.pushReplacementNamed(context, RoutesName.loginScreen);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.score),
+            title: const Text("Score History"),
+            onTap: () {
+              Navigator.pushNamed(context, RoutesName.ScoreHistoryScreen);
+            },
+          )
         ],
       ),
     );
