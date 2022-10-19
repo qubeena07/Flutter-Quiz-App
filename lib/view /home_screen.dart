@@ -25,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   ScoreViewModel scoreViewModel = ScoreViewModel();
   static const maxSeconds = 120;
+  int wrongAnswerCount = 0;
   int seconds = maxSeconds;
   Timer? timer;
   int solutionIndicator = -1;
@@ -226,44 +227,59 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           .displaySolution
                                                           .indexOf(e);
                                                     });
-                                                    if (value.questionAnswerList
-                                                            ?.data!.solution ==
-                                                        e) {
-                                                      scoreViewModel
-                                                          .setTotalScore();
+                                                    log(
+                                                        wrongAnswerCount
+                                                            .toString(),
+                                                        name:
+                                                            "wrong answer count ");
+                                                    if (wrongAnswerCount <= 2) {
+                                                      if (value
+                                                              .questionAnswerList
+                                                              ?.data!
+                                                              .solution ==
+                                                          e) {
+                                                        scoreViewModel
+                                                            .setTotalScore();
 
-                                                      scoreViewModel
-                                                          .setQuestionNum();
-                                                      Future.delayed(
-                                                        const Duration(
-                                                            seconds: 1),
-                                                        () async {
-                                                          await questionAnswerViewModel
-                                                              .fetchQuestionAnswerListApi();
-                                                          setState(() {
-                                                            solutionIndicator =
-                                                                -1;
-                                                          });
-                                                        },
-                                                      );
+                                                        scoreViewModel
+                                                            .setQuestionNum();
+                                                        Future.delayed(
+                                                          const Duration(
+                                                              seconds: 1),
+                                                          () async {
+                                                            await questionAnswerViewModel
+                                                                .fetchQuestionAnswerListApi();
+                                                            setState(() {
+                                                              solutionIndicator =
+                                                                  -1;
+                                                            });
+                                                          },
+                                                        );
 
-                                                      // answerIndicator = false;
+                                                        // answerIndicator = false;
+                                                      } else {
+                                                        Future.delayed(
+                                                          const Duration(
+                                                              seconds: 1),
+                                                          () async {
+                                                            await questionAnswerViewModel
+                                                                .fetchQuestionAnswerListApi();
+                                                            setState(() {
+                                                              solutionIndicator =
+                                                                  -1;
+                                                            });
+                                                            wrongAnswerCount++;
+                                                          },
+                                                        );
+
+                                                        scoreViewModel
+                                                            .setQuestionNum();
+                                                      }
                                                     } else {
-                                                      Future.delayed(
-                                                        const Duration(
-                                                            seconds: 1),
-                                                        () async {
-                                                          await questionAnswerViewModel
-                                                              .fetchQuestionAnswerListApi();
-                                                          setState(() {
-                                                            solutionIndicator =
-                                                                -1;
-                                                          });
-                                                        },
-                                                      );
-
-                                                      scoreViewModel
-                                                          .setQuestionNum();
+                                                      setState(() {
+                                                        seconds = 0;
+                                                        wrongAnswerCount = 0;
+                                                      });
                                                     }
                                                   },
                                                   title: Text(

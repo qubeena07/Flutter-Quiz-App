@@ -20,7 +20,6 @@ class _ScoreHistoryScreenState extends State<ScoreHistoryScreen> {
   var useremail = '';
   @override
   void didChangeDependencies() async {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     useremail = await getUseremail();
     setState(() {});
@@ -32,7 +31,6 @@ class _ScoreHistoryScreenState extends State<ScoreHistoryScreen> {
     return Scaffold(
         key: scaffoldKey,
         appBar: AppBar(
-          title: const Text("Your Score Sheet"),
           leading: IconButton(
             onPressed: () => scaffoldKey.currentState!.openDrawer(),
             icon: Icon(

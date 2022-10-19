@@ -45,7 +45,7 @@ class Routes {
         return MaterialPageRoute(
             builder: (BuildContext context) => const ForgotPasswordScreen());
 
-      case RoutesName.ScoreHistoryScreen:
+      case RoutesName.scoreHistoryScreen:
         return MaterialPageRoute(
             builder: (BuildContext context) => const ScoreHistoryScreen());
 

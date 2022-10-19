@@ -17,5 +17,5 @@ class RoutesName {
   static const String forgotPasswordScreen = "forgot_password_screen";
 
   //route for score history screen
-  static const String ScoreHistoryScreen = "score_history_screen";
+  static const String scoreHistoryScreen = "score_history_screen";
 }

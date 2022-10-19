@@ -64,7 +64,7 @@ class DrawerWidget extends StatelessWidget {
             leading: const Icon(Icons.score),
             title: const Text("Score History"),
             onTap: () {
-              Navigator.pushNamed(context, RoutesName.ScoreHistoryScreen);
+              Navigator.pushNamed(context, RoutesName.scoreHistoryScreen);
             },
           )
         ],
