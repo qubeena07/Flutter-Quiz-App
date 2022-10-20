@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quiz_app/data/constants.dart';
 import 'package:quiz_app/resources/colors.dart';
@@ -69,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   boxShadow: [
                     BoxShadow(
                         color: const Color.fromARGB(255, 197, 197, 197),
-                        blurRadius: 2.0.r)
+                        blurRadius: 4.0.r)
                   ],
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20.r),
@@ -93,24 +94,27 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     SizedBox(
                       width: 250.w,
-                      child: TextFormField(
-                        controller: emailController,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          fillColor: Color.fromARGB(161, 222, 233, 242),
-                          filled: true,
-                          label: Text(
-                            "Email",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w300,
+                      child: AutofillGroup(
+                        child: TextFormField(
+                          controller: emailController,
+                          autofillHints: const [AutofillHints.email],
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            fillColor: Color.fromARGB(161, 222, 233, 242),
+                            filled: true,
+                            label: Text(
+                              "Email",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w300,
+                              ),
                             ),
+                            prefixIcon: Icon(Icons.person, color: Colors.black),
                           ),
-                          prefixIcon: Icon(Icons.person, color: Colors.black),
-                        ),
-                        style: const TextStyle(
-                          color: Colors.black,
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -119,36 +123,42 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     SizedBox(
                       width: 250.w,
-                      child: TextFormField(
-                        controller: passwordController,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w300,
+                      child: AutofillGroup(
+                        child: TextFormField(
+                          controller: passwordController,
+                          autofillHints: const [AutofillHints.password],
+                          onEditingComplete: () =>
+                              TextInput.finishAutofillContext(),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w300,
+                          ),
+                          decoration: InputDecoration(
+                              fillColor:
+                                  const Color.fromARGB(161, 222, 233, 242),
+                              filled: true,
+                              border: InputBorder.none,
+                              label: const Text(
+                                "Password",
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              prefixIcon:
+                                  const Icon(Icons.lock, color: Colors.black),
+                              suffixIcon: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _showPassword = !_showPassword;
+                                  });
+                                },
+                                child: Icon(
+                                    _showPassword
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
+                                    color: Colors.black),
+                              )),
+                          obscureText: !!_showPassword,
                         ),
-                        decoration: InputDecoration(
-                            fillColor: const Color.fromARGB(161, 222, 233, 242),
-                            filled: true,
-                            border: InputBorder.none,
-                            label: const Text(
-                              "Password",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            prefixIcon:
-                                const Icon(Icons.lock, color: Colors.black),
-                            suffixIcon: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _showPassword = !_showPassword;
-                                });
-                              },
-                              child: Icon(
-                                  _showPassword
-                                      ? Icons.visibility_off
-                                      : Icons.visibility,
-                                  color: Colors.black),
-                            )),
-                        obscureText: !!_showPassword,
                       ),
                     ),
                     SizedBox(
