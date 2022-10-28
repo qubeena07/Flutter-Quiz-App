@@ -84,7 +84,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       height: 15.h,
                     ),
                     SizedBox(
-                      width: 250.w,
+                      width: 260.w,
                       child: TextFormField(
                         controller: emailController,
                         autovalidateMode: AutovalidateMode.onUserInteraction,

@@ -18,4 +18,8 @@ class RoutesName {
 
   //route for score history screen
   static const String scoreHistoryScreen = "score_history_screen";
+
+  //route for verify email screen
+  static const String verifyEmailScreen = "verify_email_screen";
+  static const String emailVerify = "email_verify";
 }

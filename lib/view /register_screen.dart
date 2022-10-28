@@ -1,3 +1,4 @@
+import 'package:email_auth/email_auth.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -6,10 +7,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quiz_app/data/constants.dart';
 import 'package:quiz_app/resources/colors.dart';
 import 'package:quiz_app/utils/routes/routes_name.dart';
+import 'package:quiz_app/utils/utils.dart';
 import 'package:quiz_app/widgets/round_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../utils/utils.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -29,6 +29,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   FocusNode emailFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
+  late EmailAuth emailAuth;
+
+  // void sendOTP() async {
+  //   EmailAuth(sessionName: "Email Verification");
+  //   var response = await emailAuth.sendOtp(recipientMail: emailController.text);
+  //   log(response.toString(), name: "OTP response");
+  //   if (response) {
+  //     Utils.flushBarErrorMessage("OTP sent to your email", context);
+  //   } else {
+  //     Utils.flushBarErrorMessage("Could not sent OTP to your mail", context);
+  //   }
+  // }
 
   @override
   void dispose() {
@@ -102,7 +114,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         height: 15.h,
                       ),
                       SizedBox(
-                        width: 250.w,
+                        width: 260.w,
                         child: TextFormField(
                           controller: emailController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -122,6 +134,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ),
                             prefixIcon: Icon(Icons.person, color: Colors.black),
+                            // suffixIcon: TextButton(
+                            //     onPressed: () {},
+                            //     child: const Text("Send OTP"))
                           ),
                           style: const TextStyle(
                             color: Colors.black,
@@ -132,7 +147,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         height: 15.h,
                       ),
                       SizedBox(
-                        width: 250.w,
+                        width: 260.w,
                         child: TextFormField(
                           controller: passwordController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -174,7 +189,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         height: 15.h,
                       ),
                       SizedBox(
-                        width: 250.w,
+                        width: 260.w,
                         child: TextFormField(
                           controller: confirmPassController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -215,9 +230,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       SizedBox(
                         height: 18.h,
                       ),
-                      RoundButton(title: "Register", onPress: register
-                          // Navigator.pushNamed(context, RoutesName.home);
-                          )
+                      RoundButton(
+                          title: "Register",
+                          onPress: () {
+                            //  () {
+                            //   log("regsiter button is clicked");
+                            //   final isValid = formKey.currentState!.validate();
+                            //   if (!isValid) return;
+                            //   Navigator.pushReplacementNamed(
+                            //       context, RoutesName.verifyEmailScreen,
+                            //       arguments: {
+                            //         "email": emailController.text,
+                            //       });
+                            // }
+
+                            final isValid = formKey.currentState!.validate();
+                            if (!isValid) return;
+
+                            //  sendOTP();
+                            Navigator.pushNamed(context, RoutesName.emailVerify,
+                                arguments: {
+                                  "email": emailController.text,
+                                  "password": "111111",
+                                  "confirmPassword": "111111"
+                                });
+                            // register
+                          })
                     ],
                   ),
                 ),
@@ -252,27 +290,53 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Future register() async {
-    final isValid = formKey.currentState!.validate();
-    if (!isValid) return;
-    if (passwordController.text == confirmPassController.text) {
-      try {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: emailController.text.trim(),
-            password: passwordController.text.trim());
-        Utils.toastMessage("Register Sucessfull");
+  // Future register() async {
+  //   final isValid = formKey.currentState!.validate();
+  //   if (!isValid) return;
+  //   if (passwordController.text == confirmPassController.text) {
+  //     try {
+  //       await FirebaseAuth.instance.createUserWithEmailAndPassword(
+  //           email: emailController.text.trim(),
+  //           password: passwordController.text.trim());
+  //       Utils.toastMessage("Register Sucessfull");
 
-        final sp = await SharedPreferences.getInstance();
-        sp.setString(userEmail, FirebaseAuth.instance.currentUser!.email!);
-        // ignore: use_build_context_synchronously
-        await Navigator.pushNamedAndRemoveUntil(
-            context, RoutesName.welcomeScreen, (route) => false);
-      } on FirebaseAuthException catch (e) {
-        Utils.flushBarErrorMessage(e.message!, context);
-        // print(e);
-      }
-    } else {
-      Utils.flushBarErrorMessage("Password doesn't match", context);
+  //       final sp = await SharedPreferences.getInstance();
+  //       sp.setString(userEmail, FirebaseAuth.instance.currentUser!.email!);
+  //       // ignore: use_build_context_synchronously
+
+  //       await Navigator.pushNamedAndRemoveUntil(
+  //           context, RoutesName.welcomeScreen, (route) => false);
+  //     } on FirebaseAuthException catch (e) {
+  //       Utils.flushBarErrorMessage(e.message!, context);
+  //       // print(e);
+  //     }
+  //   } else {
+  //     Utils.flushBarErrorMessage("Password doesn't match", context);
+  //   }
+  // }
+}
+
+Future register(
+    {String? email,
+    String? password,
+    String? confirmPassword,
+    BuildContext? context}) async {
+  if (password == confirmPassword) {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: email.toString(), password: password.toString());
+      Utils.toastMessage("Register Sucessfull");
+
+      final sp = await SharedPreferences.getInstance();
+      sp.setString(userEmail, FirebaseAuth.instance.currentUser!.email!);
+      // ignore: use_build_context_synchronously
+      await Navigator.pushNamedAndRemoveUntil(
+          context!, RoutesName.welcomeScreen, (route) => false);
+    } on FirebaseAuthException catch (e) {
+      Utils.flushBarErrorMessage(e.message!, context!);
+      // print(e);
     }
+  } else {
+    Utils.flushBarErrorMessage("Password doesn't match", context!);
   }
 }

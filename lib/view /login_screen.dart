@@ -8,6 +8,7 @@ import 'package:quiz_app/resources/colors.dart';
 
 import 'package:quiz_app/utils/routes/routes_name.dart';
 import 'package:quiz_app/utils/utils.dart';
+import 'package:quiz_app/view_model/google_signIn_view_model.dart';
 import 'package:quiz_app/widgets/round_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,6 +27,18 @@ class _LoginScreenState extends State<LoginScreen> {
 
   FocusNode emailFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
+
+  Future<void> signInWithGoogle() async {
+    await AuthenticationViewModel().signInWithGoogle();
+
+    final sp = await SharedPreferences.getInstance();
+    sp.setString(userEmail, FirebaseAuth.instance.currentUser!.email!);
+    sp.setBool(loginFlag, true);
+
+    Future.delayed(const Duration(seconds: 1), () {
+      Navigator.pushReplacementNamed(context, RoutesName.welcomeScreen);
+    });
+  }
 
   @override
   void dispose() {
@@ -93,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 15.h,
                     ),
                     SizedBox(
-                      width: 250.w,
+                      width: 260.w,
                       child: AutofillGroup(
                         child: TextFormField(
                           controller: emailController,
@@ -122,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 15.h,
                     ),
                     SizedBox(
-                      width: 250.w,
+                      width: 260.w,
                       child: AutofillGroup(
                         child: TextFormField(
                           controller: passwordController,
@@ -207,7 +220,27 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: AppColors.kPrimaryColor)),
                   ],
                 ),
-              )
+              ),
+              SizedBox(
+                height: 30.h,
+              ),
+              RoundButton(title: "Login with Google", onPress: signInWithGoogle
+                  // Future.delayed(const Duration(seconds: 5));
+                  // Navigator.pushReplacementNamed(
+                  //     context, RoutesName.welcomeScreen);
+
+                  // onPress: () async {
+                  //   final provider = Provider.of<GoogleSignInViewModel>(context,
+                  //       listen: false);
+                  //   if (await provider.googleLogin()) {
+                  //     Navigator.pushReplacementNamed(
+                  //         context, RoutesName.welcomeScreen);
+                  //   } else {
+                  //     Navigator.pushReplacementNamed(
+                  //         context, RoutesName.loginScreen);s
+                  //   }
+                  // }
+                  )
             ],
           ),
         ),

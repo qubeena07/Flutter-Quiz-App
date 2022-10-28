@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/utils/routes/routes_name.dart';
+import 'package:quiz_app/view%20/email_verify_screen.dart';
 import 'package:quiz_app/view%20/forgot_password_screen.dart';
 import 'package:quiz_app/view%20/home_screen.dart';
 import 'package:quiz_app/view%20/login_screen.dart';
@@ -48,6 +49,12 @@ class Routes {
       case RoutesName.scoreHistoryScreen:
         return MaterialPageRoute(
             builder: (BuildContext context) => const ScoreHistoryScreen());
+      // case RoutesName.verifyEmailScreen:
+      //   return MaterialPageRoute(
+      //       builder: (BuildContext context) => VerfiyEmail());
+      case RoutesName.emailVerify:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => EmailVerifyScreen());
 
       default:
         return MaterialPageRoute(builder: (_) {

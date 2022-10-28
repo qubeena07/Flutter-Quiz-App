@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +33,10 @@ Future main() async {
         ChangeNotifierProvider(
           create: (_) => ThemeViewModel(),
         ),
+        StreamProvider.value(
+          value: FirebaseAuth.instance.authStateChanges(),
+          initialData: null,
+        )
       ],
       child: MyApp(
         showLogin: showLogin,

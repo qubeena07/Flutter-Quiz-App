@@ -4,9 +4,11 @@ import 'package:quiz_app/resources/colors.dart';
 
 class RoundButton extends StatelessWidget {
   final String title;
+  Icon? btnIcon;
 
   final VoidCallback onPress;
-  const RoundButton({Key? key, required this.title, required this.onPress})
+  RoundButton(
+      {Key? key, required this.title, required this.onPress, this.btnIcon})
       : super(key: key);
 
   @override
