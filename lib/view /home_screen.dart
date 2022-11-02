@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:quiz_app/data/response/status.dart';
 import 'package:quiz_app/resources/colors.dart';
+import 'package:quiz_app/view_model/notification_view_model.dart';
 import 'package:quiz_app/view_model/question_answer_view_model.dart';
 import 'package:quiz_app/view_model/score_view_model.dart';
 import 'package:quiz_app/widgets/drawer_widget.dart';
@@ -30,15 +31,20 @@ class _HomeScreenState extends State<HomeScreen> {
   Timer? timer;
   int solutionIndicator = -1;
   List<String> indexList = ['a)', 'b)', 'c)', 'd)'];
+  NotificationViewModel notificationViewModel = NotificationViewModel();
 
   void startTimer() {
     Timer.periodic(const Duration(seconds: 1), (timer) {
       if (seconds == 0) {
         timer.cancel();
+
         seconds = maxSeconds;
+        notificationViewModel.sendNotification(
+            "Congratulations", "Your score is ${scoreViewModel.totalScore}");
         scoreViewModel.resetTotalScore();
         scoreViewModel.setQuestionNum();
         // questionAnswerViewModel.dispose();
+
       } else {
         setState(() => seconds--);
       }
@@ -50,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
     displayQuestion();
     startTimer();
     super.initState();
+    notificationViewModel.initializeNotification();
   }
 
   displayQuestion() async {
@@ -92,6 +99,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             setState(() {
                               seconds = 0;
                             });
+                            notificationViewModel.sendNotification(
+                                "Congratulations",
+                                "Your score is ${scoreViewModel.totalScore}");
                           })
 
                       // IconButton(

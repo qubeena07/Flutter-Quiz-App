@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
               Container(
                 width: 300.w,
-                height: 260.h,
+                height: 280.h,
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -175,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: 18.h,
+                      height: 25.h,
                     ),
                     RoundButton(title: "Login", onPress: signIn
                         // Navigator.pushNamed(context, RoutesName.home);
@@ -249,6 +249,13 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future signIn() async {
+    // Future.delayed(const Duration(seconds: 3));
+    // showDialog(
+    //     context: context,
+    //     barrierDismissible: false,
+    //     builder: (context) => const Center(
+    //           child: CircularProgressIndicator(),
+    //         ));
     try {
       FocusScope.of(context).unfocus();
       await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -267,5 +274,6 @@ class _LoginScreenState extends State<LoginScreen> {
       Utils.flushBarErrorMessage(e.toString(), context);
       // print(e);
     }
+    // navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }

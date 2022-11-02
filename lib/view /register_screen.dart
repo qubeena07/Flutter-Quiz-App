@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:email_auth/email_auth.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +12,7 @@ import 'package:quiz_app/utils/routes/routes_name.dart';
 import 'package:quiz_app/utils/utils.dart';
 import 'package:quiz_app/widgets/round_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:quiz_app/view_model/notification_view_model.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -22,6 +25,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
   bool _showPassword = true;
   bool _confirmPassword = true;
+  NotificationViewModel notificationViewModel = NotificationViewModel();
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -41,6 +45,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   //     Utils.flushBarErrorMessage("Could not sent OTP to your mail", context);
   //   }
   // }
+  @override
+  void initState() {
+    super.initState();
+    notificationViewModel.initializeNotification();
+  }
 
   @override
   void dispose() {
@@ -232,18 +241,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       RoundButton(
                           title: "Register",
-                          onPress: () {
-                            //  () {
-                            //   log("regsiter button is clicked");
-                            //   final isValid = formKey.currentState!.validate();
-                            //   if (!isValid) return;
-                            //   Navigator.pushReplacementNamed(
-                            //       context, RoutesName.verifyEmailScreen,
-                            //       arguments: {
-                            //         "email": emailController.text,
-                            //       });
-                            // }
-
+                          onPress:
+                              // register
+                              () {
                             final isValid = formKey.currentState!.validate();
                             if (!isValid) return;
 
@@ -251,9 +251,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             Navigator.pushNamed(context, RoutesName.emailVerify,
                                 arguments: {
                                   "email": emailController.text,
-                                  "password": "111111",
-                                  "confirmPassword": "111111"
+                                  "password": passwordController.text,
+                                  "confirmPassword": confirmPassController.text
                                 });
+                            log(emailController.toString(),
+                                name: "email controller value");
+                            notificationViewModel.sendNotification(
+                                "Quick Quiz Account Registration",
+                                "Your account has been registered for the app");
                             // register
                           })
                     ],
@@ -320,7 +325,13 @@ Future register(
     {String? email,
     String? password,
     String? confirmPassword,
-    BuildContext? context}) async {
+    required BuildContext context}) async {
+  //showDialog(
+  // context: context,
+  // barrierDismissible: false,
+  // builder: (context) => const Center(
+  //       child: CircularProgressIndicator(),
+  //     ));
   if (password == confirmPassword) {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -331,12 +342,13 @@ Future register(
       sp.setString(userEmail, FirebaseAuth.instance.currentUser!.email!);
       // ignore: use_build_context_synchronously
       await Navigator.pushNamedAndRemoveUntil(
-          context!, RoutesName.welcomeScreen, (route) => false);
+          context, RoutesName.welcomeScreen, (route) => false);
     } on FirebaseAuthException catch (e) {
-      Utils.flushBarErrorMessage(e.message!, context!);
+      Utils.flushBarErrorMessage(e.message!, context);
       // print(e);
     }
   } else {
-    Utils.flushBarErrorMessage("Password doesn't match", context!);
+    Utils.flushBarErrorMessage("Password doesn't match", context);
   }
+  // navigatorKey.currentState!.popUntil((route) => route.isFirst);
 }

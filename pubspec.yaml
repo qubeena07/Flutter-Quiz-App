@@ -47,6 +47,7 @@ dependencies:
   lottie: ^1.4.2
   google_sign_in: ^5.4.2
   email_auth: ^1.0.0
+  flutter_local_notifications: ^12.0.3
 
 dev_dependencies:
   flutter_test:

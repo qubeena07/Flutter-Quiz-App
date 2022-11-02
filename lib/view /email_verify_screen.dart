@@ -1,13 +1,20 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quiz_app/utils/utils.dart';
+import 'package:quiz_app/view%20/register_screen.dart';
 import 'package:quiz_app/view%20/welcome_screen.dart';
 
 // ignore: must_be_immutable
 class EmailVerifyScreen extends StatefulWidget {
-  const EmailVerifyScreen({
+  // ignore: prefer_typing_uninitialized_variables
+  var arguments;
+
+  EmailVerifyScreen(
+    this.arguments, {
     Key? key,
   }) : super(key: key);
 
@@ -16,72 +23,53 @@ class EmailVerifyScreen extends StatefulWidget {
 }
 
 class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
-  dynamic args;
   bool isEmailVerified = false;
   Timer? timer;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   //check if user is created before or not
-  //   isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-
-  //   if (!isEmailVerified) {
-  //     sendVerificationEmail();
-  //     timer = Timer.periodic(
-  //         const Duration(seconds: 3), (_) => checkEmailVerification());
-  //   }
-  // }
-
-  // @override
-  // void dispose() {
-  //   timer?.cancel();
-  //   super.dispose();
-  // }
-
-  // Future checkEmailVerification() async {
-  //   await FirebaseAuth.instance.currentUser!.reload();
-  //   setState(() {
-  //     isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-  //     register(
-  //         context: context,
-  //         email: args["email"],
-  //         password: args["password"],
-  //         confirmPassword: args["confirmPassword"]);
-  //   });
-  //   if (isEmailVerified) timer?.cancel();
-  // }
-
-  // Future sendVerificationEmail() async {
-  //   try {
-  //     final user = FirebaseAuth.instance.currentUser!;
-  //     log(user.toString(), name: "email user");
-  //     await user.sendEmailVerification();
-  //   } catch (e) {
-  //     Utils.snackBar("Error sending email verification", Colors.red, context);
-  //   }
-  // }
-
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    args = ModalRoute.of(context)?.settings.arguments;
-    log(args["email"].toString(), name: "args value");
-    setState(() {});
+  void initState() {
+    super.initState();
+
+    //check if user is created before or not
+    isEmailVerified = FirebaseAuth.instance.currentUser?.emailVerified ?? false;
+
+    if (!isEmailVerified) {
+      sendVerificationEmail();
+      timer = Timer.periodic(
+          const Duration(seconds: 3), (_) => checkEmailVerification());
+    }
   }
 
-  // Future<bool> verifyOTP() async {
-  //   var response = emailAuth.validateOtp(
-  //       recipientMail: args["email"], userOtp: otpController.text);
-  //   if (response) {
-  //     Utils.flushBarErrorMessage("OTP Verified", context);
-  //     return true;
-  //   } else {
-  //     Utils.flushBarErrorMessage("Invalid OTP", context);
-  //     return false;
-  //   }
-  // }
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  Future checkEmailVerification() async {
+    await FirebaseAuth.instance.currentUser!.reload();
+    setState(() {
+      isEmailVerified =
+          FirebaseAuth.instance.currentUser?.emailVerified ?? false;
+      register(
+          context: context,
+          email: widget.arguments['email'],
+          password: widget.arguments['password'],
+          confirmPassword: widget.arguments["confirmPassword"]);
+    });
+    if (isEmailVerified) timer?.cancel();
+  }
+
+  Future sendVerificationEmail() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser!;
+      log(user.toString(), name: "email user");
+      log(widget.arguments['email'].toString(), name: "email arguments");
+      await user.sendEmailVerification();
+    } catch (e) {
+      Utils.snackBar("Error sending email verification", Colors.red, context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) => isEmailVerified

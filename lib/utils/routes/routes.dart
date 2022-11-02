@@ -53,8 +53,10 @@ class Routes {
       //   return MaterialPageRoute(
       //       builder: (BuildContext context) => VerfiyEmail());
       case RoutesName.emailVerify:
+        Map args = settings.arguments as Map;
         return MaterialPageRoute(
-            builder: (BuildContext context) => EmailVerifyScreen());
+          builder: (BuildContext context) => EmailVerifyScreen(args),
+        );
 
       default:
         return MaterialPageRoute(builder: (_) {

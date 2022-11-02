@@ -44,6 +44,8 @@ Future main() async {
       )));
 }
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   final bool showLogin;
   final bool showHome;
@@ -63,6 +65,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp(
+            navigatorKey: navigatorKey,
             debugShowCheckedModeBanner: false,
             // theme: MyThemes.lightTheme,
             themeMode: themeProvider.themeMode,
