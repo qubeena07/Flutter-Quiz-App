@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/utils/routes/routes_name.dart';
-import 'package:quiz_app/view%20/email_verify_screen.dart';
 import 'package:quiz_app/view%20/forgot_password_screen.dart';
 import 'package:quiz_app/view%20/home_screen.dart';
 import 'package:quiz_app/view%20/login_screen.dart';
 import 'package:quiz_app/view%20/onboarding_screen.dart';
 import 'package:quiz_app/view%20/ready_screen.dart';
 import 'package:quiz_app/view%20/score_history_screen.dart';
+import 'package:quiz_app/view%20/verify_screen.dart';
 import 'package:quiz_app/view%20/welcome_screen.dart';
 import 'package:quiz_app/widgets/final_score_container.dart';
 
@@ -49,14 +49,14 @@ class Routes {
       case RoutesName.scoreHistoryScreen:
         return MaterialPageRoute(
             builder: (BuildContext context) => const ScoreHistoryScreen());
-      // case RoutesName.verifyEmailScreen:
-      //   return MaterialPageRoute(
-      //       builder: (BuildContext context) => VerfiyEmail());
-      case RoutesName.emailVerify:
-        Map args = settings.arguments as Map;
+      case RoutesName.verifyEmailScreen:
         return MaterialPageRoute(
-          builder: (BuildContext context) => EmailVerifyScreen(args),
-        );
+            builder: (BuildContext context) => VerifyScreen());
+      // case RoutesName.emailVerify:
+      //   Map args = settings.arguments as Map;
+      //   return MaterialPageRoute(
+      //     builder: (BuildContext context) => EmailVerifyScreen(args),
+      //   );
 
       default:
         return MaterialPageRoute(builder: (_) {
