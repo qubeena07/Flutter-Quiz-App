@@ -9,6 +9,7 @@ class VerifyScreen extends StatefulWidget {
   const VerifyScreen({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _VerifyScreenState createState() => _VerifyScreenState();
 }
 
@@ -127,6 +128,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
     await user!.reload();
     if (user!.emailVerified) {
       timer!.cancel();
+      // ignore: use_build_context_synchronously
       Navigator.pushReplacementNamed(context, RoutesName.loginScreen);
     }
   }

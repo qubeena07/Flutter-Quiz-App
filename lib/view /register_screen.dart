@@ -306,8 +306,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
         final sp = await SharedPreferences.getInstance();
         sp.setString(userEmail, FirebaseAuth.instance.currentUser!.email!);
-        // ignore: use_build_context_synchronously
 
+        // ignore: use_build_context_synchronously
         await Navigator.pushNamedAndRemoveUntil(
             context, RoutesName.verifyEmailScreen, (route) => false);
       } on FirebaseAuthException catch (e) {

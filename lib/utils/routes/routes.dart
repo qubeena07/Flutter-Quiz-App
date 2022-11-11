@@ -51,7 +51,7 @@ class Routes {
             builder: (BuildContext context) => const ScoreHistoryScreen());
       case RoutesName.verifyEmailScreen:
         return MaterialPageRoute(
-            builder: (BuildContext context) => VerifyScreen());
+            builder: (BuildContext context) => const VerifyScreen());
       // case RoutesName.emailVerify:
       //   Map args = settings.arguments as Map;
       //   return MaterialPageRoute(
