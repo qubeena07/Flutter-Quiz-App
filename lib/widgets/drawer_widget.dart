@@ -63,6 +63,8 @@ class DrawerWidget extends StatelessWidget {
               sp.setBool(loginFlag, false);
 
               // ignore: use_build_context_synchronously
+              // DialogWidget().showAlertDialog(context);
+              // ignore: use_build_context_synchronously
               Navigator.pushReplacementNamed(context, RoutesName.loginScreen);
             },
           ),

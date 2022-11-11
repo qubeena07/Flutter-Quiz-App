@@ -211,10 +211,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                   ?.data!
                                                                   .solution ==
                                                               e)
-                                                          ? const Icon(
-                                                              Icons.check)
-                                                          : const Icon(
-                                                              Icons.close)),
+                                                          ? Icon(
+                                                              Icons.check,
+                                                              color:
+                                                                  Colors.green,
+                                                              size: 18.sp,
+                                                            )
+                                                          : Icon(Icons.close,
+                                                              color: Colors.red,
+                                                              size: 18.sp)),
                                                   leading: Text(
                                                     indexList[value
                                                         .displaySolution

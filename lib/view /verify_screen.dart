@@ -6,6 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quiz_app/utils/routes/routes_name.dart';
 
 class VerifyScreen extends StatefulWidget {
+  const VerifyScreen({Key? key}) : super(key: key);
+
   @override
   _VerifyScreenState createState() => _VerifyScreenState();
 }

@@ -21,5 +21,5 @@ class RoutesName {
 
   //route for verify email screen
   static const String verifyEmailScreen = "verify_email_screen";
-  static const String emailVerify = "email_verify";
+  // static const String emailVerify = "email_verify";
 }
