@@ -58,63 +58,72 @@ class _ScoreHistoryScreenState extends State<ScoreHistoryScreen> {
             SizedBox(
               height: 10.h,
             ),
-            Flexible(
-              child: StreamBuilder(
-                  stream: scores,
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasError) {
-                      return const Center(
-                        child: Text("Something went wrong"),
-                      );
-                    }
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    final scoreData = snapshot.requireData;
+            Container(
+              child: Expanded(
+                child: StreamBuilder(
+                    stream: scores,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasError) {
+                        return const Center(
+                          child: Text("Something went wrong"),
+                        );
+                      }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      final scoreData = snapshot.requireData;
 
-                    return ListView.builder(
-                        itemCount: scoreData.size,
-                        itemBuilder: (context, index) {
-                          if (scoreData.docs[index]['email'] == useremail) {
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15, right: 15, bottom: 5, top: 5),
-                              child: ListTile(
-                                title: Center(
-                                  child: Text(
-                                    scoreData.docs[index]['score'].toString(),
-                                    style: TextStyle(fontSize: 25.sp),
+                      return ListView.builder(
+                          itemCount: scoreData.size,
+                          itemBuilder: (context, index) {
+                            if (scoreData.docs[index]['email'] == useremail) {
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15, right: 15, bottom: 5, top: 5),
+                                child: ListTile(
+                                  title: Center(
+                                    child: Text(
+                                      scoreData.docs[index]['score'].toString(),
+                                      style: TextStyle(fontSize: 25.sp),
+                                    ),
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    side: const BorderSide(
+                                        color:
+                                            Color.fromARGB(255, 209, 205, 205),
+                                        width: 1),
+                                    borderRadius: BorderRadius.circular(5),
                                   ),
                                 ),
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                      color: Color.fromARGB(255, 209, 205, 205),
-                                      width: 1),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                              ),
-                            );
+                              );
 
-                            // Center(
-                            //   child: Text(
-                            //     scoreData.docs[index]['score'].toString(),
-                            //     style: TextStyle(fontSize: 25.sp),
-                            //   ),
-                            // );
-                          }
-                          // title: Text(scoreData.docs[index]['score'].toString()),
+                              // Center(
+                              //   child: Text(
+                              //     scoreData.docs[index]['score'].toString(),
+                              //     style: TextStyle(fontSize: 25.sp),
+                              //   ),
+                              // );
+                            } else if (scoreData.docs[index]['score']
+                                .toString()
+                                .isEmpty) {
+                              return const Center(
+                                child: Text("No score yet"),
+                              );
+                            }
+                            // title: Text(scoreData.docs[index]['score'].toString()),
 
-                          log(scoreData.docs[index]['email'].toString(),
-                              name: "email value");
-                          log(useremail, name: "email value 11");
+                            log(scoreData.docs[index]['email'].toString(),
+                                name: "email value");
+                            log(useremail, name: "email value 11");
 
-                          // }
-                          return Container();
-                        });
-                  }),
+                            // }
+                            return Container();
+                          });
+                    }),
+              ),
             ),
           ],
         ));

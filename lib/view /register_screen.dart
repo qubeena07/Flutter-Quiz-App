@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:email_auth/email_auth.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -311,7 +313,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         await Navigator.pushNamedAndRemoveUntil(
             context, RoutesName.verifyEmailScreen, (route) => false);
       } on FirebaseAuthException catch (e) {
-        Utils.flushBarErrorMessage(e.message!, context);
+        Utils.flushBarErrorMessage(
+            "Please use valid email and password", context);
+        log(e.toString(), name: "error in register screen");
+
+        //Utils.flushBarErrorMessage(e.message!, context);
         // print(e);
       }
     } else {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -271,7 +273,10 @@ class _LoginScreenState extends State<LoginScreen> {
       await Navigator.pushNamedAndRemoveUntil(
           context, RoutesName.welcomeScreen, (route) => false);
     } on FirebaseAuthException catch (e) {
-      Utils.flushBarErrorMessage(e.toString(), context);
+      Utils.flushBarErrorMessage(
+          "Username or Password is not correct", context);
+      log(e.toString(), name: "error in login screen");
+      //Utils.flushBarErrorMessage(e.toString(), context);
       // print(e);
     }
     // navigatorKey.currentState!.popUntil((route) => route.isFirst);

@@ -52,7 +52,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               image: "assets/onboard1.png",
             ),
             OnboardingContents(
-                text: "Answer each questions of the quiz in maximum 15 seconds",
+                text: "Answer the maximum number of quiz in 120 seconds",
                 image: "assets/onboard2.png"),
             OnboardingContents(
                 text: "Play and invite your friends on a mind battle ",
