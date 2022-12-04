@@ -52,9 +52,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             color: Theme.of(context).primaryColor,
           ),
         ),
-        // iconTheme: const IconThemeData(
-        //   color: Colors.black, //change your color here
-        // ),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
@@ -71,8 +68,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 padding: const EdgeInsets.all(30),
                 child: Center(
                   child: Column(
-                    //crossAxisAlignment: CrossAxisAlignment.center,
-                    //mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
                         height: 131.h,

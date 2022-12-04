@@ -7,6 +7,8 @@ class AuthenticationViewModel {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final googleSignIn = GoogleSignIn();
 
+  //sign in with google using firebase
+
   Future<User?> signInWithGoogle() async {
     final googleUser = await googleSignIn.signIn();
 
@@ -29,33 +31,9 @@ class AuthenticationViewModel {
     return null;
   }
 
+//signout with firebase
   Future<void> signOut() async {
     await googleSignIn.signOut();
     await _firebaseAuth.signOut();
   }
 }
-
-
-// class GoogleSignInViewModel extends ChangeNotifier {
-//   final googleSignIn = GoogleSignIn();
-//   GoogleSignInAccount? _user;
-
-//   GoogleSignInAccount get user => user;
-
-//   Future<bool> googleLogin() async {
-//     final googleUser = await googleSignIn.signIn();
-//     if (googleUser == null) {
-//       FirebaseAuth.instance.signOut();
-//       return false;
-//     }
-//     _user = googleUser;
-
-//     final googleAuth = await googleUser.authentication;
-//     final credential = GoogleAuthProvider.credential(
-//         accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
-//     await FirebaseAuth.instance.signInWithCredential(credential);
-
-//     notifyListeners();
-//     return true;
-//   }
-// }

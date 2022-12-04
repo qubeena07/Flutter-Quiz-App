@@ -3,16 +3,17 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 class NotificationViewModel {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-
+//image for notification in android.
   final AndroidInitializationSettings _androidInitializationSettings =
       const AndroidInitializationSettings("ic_launcher.png");
-
+//initilazie of notification
   void initializeNotification() async {
     InitializationSettings initializationSettings =
         InitializationSettings(android: _androidInitializationSettings);
     await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
+//notification title and body
   void sendNotification(
     String title,
     String body,

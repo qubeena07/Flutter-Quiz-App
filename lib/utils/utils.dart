@@ -4,12 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Utils {
-  static void fieldFocusChange(
-      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
-    currentFocus.unfocus();
-    FocusScope.of(context).requestFocus(nextFocus);
-  }
-
+  //function to display toast message
   static toastMessage(String message) {
     Fluttertoast.showToast(
         msg: message,
@@ -17,6 +12,7 @@ class Utils {
         fontSize: 18);
   }
 
+  //function to display flush bar error message
   static void flushBarErrorMessage(String message, BuildContext context) {
     showFlushbar(
       context: context,
@@ -35,6 +31,7 @@ class Utils {
       )..show(context),
     );
   }
+  //function to display snack bar message
 
   static snackBar(String message, Color color, BuildContext context) {
     return ScaffoldMessenger.of(context)

@@ -23,34 +23,27 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
+  //boolean for password visibilty
   bool _showPassword = true;
   bool _confirmPassword = true;
+  //object of notification view model
   NotificationViewModel notificationViewModel = NotificationViewModel();
-
+  //controller for email, password and confirm password textformfield
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPassController = TextEditingController();
 
-  FocusNode emailFocusNode = FocusNode();
-  FocusNode passwordFocusNode = FocusNode();
+  //object of Email authentication for
   late EmailAuth emailAuth;
 
-  // void sendOTP() async {
-  //   EmailAuth(sessionName: "Email Verification");
-  //   var response = await emailAuth.sendOtp(recipientMail: emailController.text);
-  //   log(response.toString(), name: "OTP response");
-  //   if (response) {
-  //     Utils.flushBarErrorMessage("OTP sent to your email", context);
-  //   } else {
-  //     Utils.flushBarErrorMessage("Could not sent OTP to your mail", context);
-  //   }
-  // }
+  //initiallization of notfication when screen is callled.
   @override
   void initState() {
     super.initState();
     notificationViewModel.initializeNotification();
   }
 
+  //dispose of controller after use
   @override
   void dispose() {
     super.dispose();
@@ -58,14 +51,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     emailController.dispose();
     passwordController.dispose();
     confirmPassController.dispose();
-
-    emailFocusNode.dispose();
-    passwordFocusNode.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //contents of register screen with textform field and buttons.
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(15),
@@ -127,6 +118,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: TextFormField(
                           controller: emailController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
+                          //vallidation of email using email validator packages and can't be null
                           validator: (email) =>
                               email != null && EmailValidator.validate(email)
                                   ? null
@@ -143,9 +135,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ),
                             prefixIcon: Icon(Icons.person, color: Colors.black),
-                            // suffixIcon: TextButton(
-                            //     onPressed: () {},
-                            //     child: const Text("Send OTP"))
                           ),
                           style: const TextStyle(
                             color: Colors.black,
@@ -160,6 +149,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: TextFormField(
                           controller: passwordController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
+                          //validation of password with maximum length 6 and not null
                           validator: (value) =>
                               value != null && value.length < 6
                                   ? "Enter minimum 6 characters"
@@ -202,6 +192,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: TextFormField(
                           controller: confirmPassController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
+                          //validation of confirm password with comparison to password
                           // ignore: unrelated_type_equality_checks
                           validator: (value1) => value1 == passwordController
                               ? "Password doesn't match"
@@ -239,23 +230,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       SizedBox(
                         height: 18.h,
                       ),
+                      //button for register with register function and notification on pressed.
                       RoundButton(
                           title: "Register",
-                          onPress:
-                              // register
-                              () {
-                            // final isValid = formKey.currentState!.validate();
-                            // if (!isValid) return;
-
-                            //  sendOTP();
-                            // Navigator.pushNamed(context, RoutesName.emailVerify,
-                            //     arguments: {
-                            //       "email": emailController.text,
-                            //       "password": passwordController.text,
-                            //       "confirmPassword": confirmPassController.text
-                            //     });
-                            // log(emailController.toString(),
-                            //     name: "email controller value");
+                          onPress: () {
                             register();
                             notificationViewModel.sendNotification(
                                 "Quick Quiz Account Registration",
@@ -296,64 +274,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+//register function using firebase.
   Future register() async {
     final isValid = formKey.currentState!.validate();
     if (!isValid) return;
+    //comparison of value of passsword controller and confirm password controller
     if (passwordController.text == confirmPassController.text) {
       try {
+        //creation of user into firebase.
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: emailController.text.trim(),
             password: passwordController.text.trim());
         Utils.toastMessage("Register Sucessfull");
 
+        //save of user email using shared preferences.
         final sp = await SharedPreferences.getInstance();
         sp.setString(userEmail, FirebaseAuth.instance.currentUser!.email!);
 
         // ignore: use_build_context_synchronously
         await Navigator.pushNamedAndRemoveUntil(
             context, RoutesName.verifyEmailScreen, (route) => false);
-      } on FirebaseAuthException catch (e) {
+      }
+      //catch firebase expection if occurs and shows flush bar error message
+      on FirebaseAuthException catch (e) {
         Utils.flushBarErrorMessage(
             "Please use valid email and password", context);
         log(e.toString(), name: "error in register screen");
-
-        //Utils.flushBarErrorMessage(e.message!, context);
-        // print(e);
       }
-    } else {
+    }
+    //shows flush bar error password if password and confirm password doesn't match
+    else {
       Utils.flushBarErrorMessage("Password doesn't match", context);
     }
   }
 }
-
-// Future register(
-//     {String? email,
-//     String? password,
-//     String? confirmPassword,
-//     required BuildContext context}) async {
-//   //showDialog(
-//   // context: context,
-//   // barrierDismissible: false,
-//   // builder: (context) => const Center(
-//   //       child: CircularProgressIndicator(),
-//   //     ));
-//   if (password == confirmPassword) {
-//     try {
-//       await FirebaseAuth.instance.createUserWithEmailAndPassword(
-//           email: email.toString(), password: password.toString());
-//       Utils.toastMessage("Register Sucessfull");
-
-//       final sp = await SharedPreferences.getInstance();
-//       sp.setString(userEmail, FirebaseAuth.instance.currentUser!.email!);
-//       // ignore: use_build_context_synchronously
-//       await Navigator.pushNamedAndRemoveUntil(
-//           context, RoutesName.welcomeScreen, (route) => false);
-//     } on FirebaseAuthException catch (e) {
-//       Utils.flushBarErrorMessage(e.message!, context);
-//       // print(e);
-//     }
-//   } else {
-//     Utils.flushBarErrorMessage("Password doesn't match", context);
-//   }
-//   // navigatorKey.currentState!.popUntil((route) => route.isFirst);
-// }

@@ -15,6 +15,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController emailController = TextEditingController();
 
+  //dispose of value of email controller after use.
   @override
   void dispose() {
     super.dispose();
@@ -31,16 +32,18 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         backgroundColor: Colors.white,
         elevation: 0.0,
       ),
+
+      //body of the screen with single child scroll view which lets to scroll down.
       body: SingleChildScrollView(
         child: Container(
+          //declare of full height and width of the screen
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           decoration: const BoxDecoration(color: Colors.white),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // SizedBox(height: 10.h),
+              //display of logo of app using container
               Container(
                 height: 131.h,
                 width: 150.w,
@@ -52,7 +55,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               SizedBox(
                 height: 10.h,
               ),
-
               Container(
                 width: 300.w,
                 height: 200.h,
@@ -72,6 +74,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     SizedBox(
                       height: 18.h,
                     ),
+                    //Text to display the name of the screen
                     Text(
                       "Reset Password",
                       style: TextStyle(
@@ -83,6 +86,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     SizedBox(
                       height: 15.h,
                     ),
+                    //text form field for the email with controller
                     SizedBox(
                       width: 260.w,
                       child: TextFormField(
@@ -109,6 +113,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     SizedBox(
                       height: 18.h,
                     ),
+                    // button for the to resest password with functionality of reset password
                     RoundButton(title: "Reset Password", onPress: resetPassword
                         // Navigator.pushNamed(context, RoutesName.home);
                         )
@@ -122,14 +127,20 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     );
   }
 
+  //future function for the reset of password using firebase
   Future resetPassword() async {
     try {
+      //send of passsword reset email to entered email in text form field using firebase.
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: emailController.text.trim());
+      //toast message to show the success message.
       Utils.toastMessage("Password Resent Email Sent");
+      //navigation to login screen when resent email is sent
       // ignore: use_build_context_synchronously
       await Navigator.pushReplacementNamed(context, RoutesName.loginScreen);
-    } on FirebaseAuthException catch (e) {
+    }
+    //catch of any firebase exception if occurs and display using flush bar errror message.
+    on FirebaseAuthException catch (e) {
       Utils.flushBarErrorMessage(e.toString(), context);
     }
   }

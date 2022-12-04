@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quiz_app/resources/colors.dart';
 
+//reuseable widget for the contents of onboarding screens.
 // ignore: must_be_immutable
 class OnboardingContents extends StatelessWidget {
   String text;

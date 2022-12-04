@@ -22,12 +22,14 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   final controller = PageController();
   bool isLastPage = false;
 
+  //initially run this function when onboarding screen is called.
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this);
   }
 
+  //dispose of controller
   @override
   void dispose() {
     super.dispose();
@@ -38,6 +40,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //contents of the onboarding screen
       body: Container(
         color: Colors.white,
         margin: const EdgeInsets.only(bottom: 80),
@@ -47,6 +50,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
             setState(() => isLastPage = index == 2);
           },
           children: [
+            //content of onboarding screen with reuseable widgets
             OnboardingContents(
               text: "Answer a quiz to improve your mind power",
               image: "assets/onboard1.png",
@@ -60,13 +64,14 @@ class _OnboardingScreenState extends State<OnboardingScreen>
           ],
         ),
       ),
+      //bottom sheet of on boadring screen with ternary operator
       bottomSheet: isLastPage
           ? TextButton(
               style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(2),
                   ),
-                  primary: Colors.white,
                   backgroundColor: AppColors.kPrimaryColor,
                   minimumSize: const Size.fromHeight(80)),
               onPressed: () async {

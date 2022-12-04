@@ -213,13 +213,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               e)
                                                           ? Icon(
                                                               Icons.check,
-                                                              color:
-                                                                  Colors.green,
-                                                              size: 18.sp,
+                                                              color: const Color
+                                                                      .fromARGB(
+                                                                  255,
+                                                                  9,
+                                                                  153,
+                                                                  83),
+                                                              size: 40.sp,
                                                             )
                                                           : Icon(Icons.close,
                                                               color: Colors.red,
-                                                              size: 18.sp)),
+                                                              size: 40.sp)),
                                                   leading: Text(
                                                     indexList[value
                                                         .displaySolution

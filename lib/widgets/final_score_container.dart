@@ -26,6 +26,7 @@ class FinalScoreContainer extends StatelessWidget {
           SizedBox(
             height: 20.h,
           ),
+          //display of final score coming from home screen
           Text(
             "Your total score is $finalScore",
             style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w300),
@@ -33,6 +34,7 @@ class FinalScoreContainer extends StatelessWidget {
           SizedBox(
             height: 20.h,
           ),
+          //navigate to ready screen, starts game and calls saveScore function--
           RoundButton(
               title: "Try again",
               onPress: (() {
@@ -42,6 +44,8 @@ class FinalScoreContainer extends StatelessWidget {
           SizedBox(
             height: 20.h,
           ),
+          //navigate to welcome screen of app
+
           RoundButton(
               title: "Home Page",
               onPress: () {
@@ -54,6 +58,7 @@ class FinalScoreContainer extends StatelessWidget {
     );
   }
 
+  // function to save the score into cloud firestore with repectuve email
   Future saveScore({required int score}) async {
     final useremail = await getUseremail();
     final totalScore = FirebaseFirestore.instance.collection("score").doc();

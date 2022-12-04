@@ -20,17 +20,21 @@ class _VerifyScreenState extends State<VerifyScreen> {
   User? user;
   Timer? timer;
   NotificationViewModel notificationViewModel = NotificationViewModel();
+  //send verification as soon as screen in run
   @override
   void initState() {
+    //checks if the user is firebase authorized user
     user = auth.currentUser;
+    //send email verification to the user.
     user?.sendEmailVerification();
-
+    //checks if email is verified in time interval of 3 seconds
     timer = Timer.periodic(const Duration(seconds: 3), (timer) {
       checkEmailVerified();
     });
     super.initState();
   }
 
+//dispose of timer for email verification
   @override
   void dispose() {
     timer!.cancel();
@@ -66,54 +70,18 @@ class _VerifyScreenState extends State<VerifyScreen> {
               SizedBox(
                 height: 15.h,
               ),
-
               const CircularProgressIndicator()
-
-              // SizedBox(
-              //   width: 260.w,
-              //   child: TextFormField(
-              //     // controller: otpController,
-              //     autovalidateMode:
-              //         AutovalidateMode.onUserInteraction,
-              //     decoration: const InputDecoration(
-              //       border: InputBorder.none,
-              //       fillColor: Color.fromARGB(161, 222, 233, 242),
-              //       filled: true,
-              //       label: Text(
-              //         "OTP",
-              //         style: TextStyle(
-              //           color: Colors.black,
-              //           fontWeight: FontWeight.w300,
-              //         ),
-              //       ),
-              //       prefixIcon:
-              //           Icon(Icons.numbers, color: Colors.black),
-              //     ),
-              //     style: const TextStyle(
-              //       color: Colors.black,
-              //     ),
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: 18.h,
-              // ),
-              // RoundButton(title: "Verify Email", onPress: () {}
-
-              //     // Navigator.pushNamed(context, RoutesName.home);
-              //     )
             ],
           ),
         ],
       ),
-      // Center(
-      //   child: Text('An email has been sent to ${user!.email} please verify'),
-      // ),
     ));
   }
 
   Future<void> checkEmailVerified() async {
     user = auth.currentUser;
     await user!.reload();
+    //if user is verifired send toast message, notification and naivigates to login screen
     if (user!.emailVerified) {
       timer!.cancel();
       Utils.toastMessage("Your account has been verified");

@@ -21,20 +21,19 @@ class DrawerWidget extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
+          //contents of drawer widget
           DrawerHeader(
-            decoration: const BoxDecoration(
-                //color: Colors.blue,
-                ),
+            decoration: const BoxDecoration(),
             child: Center(
                 child: Text(
               user!.email.toString(),
               style: TextStyle(
                 fontSize: 20.sp,
                 fontWeight: FontWeight.w400,
-                // color: Colors.white
               ),
             )),
           ),
+          //for theme change
           Row(
             children: [
               const ChangeThemeButtonWidget(),
@@ -47,6 +46,7 @@ class DrawerWidget extends StatelessWidget {
               )
             ],
           ),
+          //for home screen
           ListTile(
             leading: const Icon(Icons.home),
             title: const Text('Home Screen'),
@@ -54,6 +54,15 @@ class DrawerWidget extends StatelessWidget {
               Navigator.pushReplacementNamed(context, RoutesName.welcomeScreen);
             },
           ),
+          //for score history
+          ListTile(
+            leading: const Icon(Icons.score),
+            title: const Text("Score History"),
+            onTap: () {
+              Navigator.pushNamed(context, RoutesName.scoreHistoryScreen);
+            },
+          ),
+          //for logout
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),
@@ -63,18 +72,9 @@ class DrawerWidget extends StatelessWidget {
               sp.setBool(loginFlag, false);
 
               // ignore: use_build_context_synchronously
-              // DialogWidget().showAlertDialog(context);
-              // ignore: use_build_context_synchronously
               Navigator.pushReplacementNamed(context, RoutesName.loginScreen);
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.score),
-            title: const Text("Score History"),
-            onTap: () {
-              Navigator.pushNamed(context, RoutesName.scoreHistoryScreen);
-            },
-          )
         ],
       ),
     );

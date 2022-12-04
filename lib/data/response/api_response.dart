@@ -1,5 +1,7 @@
 import 'package:quiz_app/data/response/status.dart';
 
+//class to return the response and state coming form api
+
 class ApiResponse<T> {
   Status? status;
   T? data;

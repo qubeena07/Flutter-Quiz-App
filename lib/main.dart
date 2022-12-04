@@ -17,13 +17,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  //declaration of shared preference instanxce in variable
   final prefs = await SharedPreferences.getInstance();
   final showLogin = prefs.getBool(showLogin1) ?? false;
   final showHome = prefs.getBool(loginFlag) ?? false;
 
+  //intialization of firebase
   await Firebase.initializeApp();
-  runApp(MultiProvider(
-      providers: [
+  runApp(
+      //declaration of all the provider used in the app
+      MultiProvider(
+          providers: [
         ChangeNotifierProvider(
           create: (_) => QuestionAnswerViewModel(),
         ),
@@ -38,10 +42,10 @@ Future main() async {
           initialData: null,
         )
       ],
-      child: MyApp(
-        showLogin: showLogin,
-        showHome: showHome,
-      )));
+          child: MyApp(
+            showLogin: showLogin,
+            showHome: showHome,
+          )));
 }
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -59,7 +63,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     log(showHome.toString(), name: "show home value");
+    //use of Theme view model using provider and assign to a variable
     final themeProvider = Provider.of<ThemeViewModel>(context);
+
     return ScreenUtilInit(
       minTextAdapt: true,
       splitScreenMode: true,
@@ -67,11 +73,10 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
             navigatorKey: navigatorKey,
             debugShowCheckedModeBanner: false,
-            // theme: MyThemes.lightTheme,
+            //theme for the app
             themeMode: themeProvider.themeMode,
             darkTheme: MyThemes.darkTheme,
-            // home:
-            //      const OnboardingScreen(),
+            //initial show screen routing
             initialRoute: (showLogin
                 ? showHome
                     ? RoutesName.welcomeScreen

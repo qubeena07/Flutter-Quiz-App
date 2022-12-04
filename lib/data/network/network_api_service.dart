@@ -6,34 +6,26 @@ import 'package:http/http.dart' as http;
 import '../app_exceptions.dart';
 import 'base_api_services.dart';
 
+//class with extends the method of baseapiservices
 class NetworkApiService extends BaseApiServices {
   @override
   Future getApiResponse(String url) async {
     dynamic responseJson;
     try {
+      //getting the response from given api with the timeout duration 20 seconds.
       final response =
-          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 10));
+          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 20));
+      //return of the response in return type of method.
       responseJson = returnResponse(response);
     } on SocketException {
+      // handling of exception if occurs.
       throw FetchDataException("No internet connection");
     }
+    // return of decoded response body coming from api.
     return responseJson;
   }
 
-  // @override
-  // Future getPostApiResponse(String url, dynamic data) async {
-  //   dynamic responseJson;
-  //   try {
-  //     Response response = await http
-  //         .post(Uri.parse(url), body: data)
-  //         .timeout(const Duration(seconds: 10));
-  //     responseJson = returnResponse(response);
-  //   } on SocketException {
-  //     throw FetchDataException("No internet connection");
-  //   }
-  //   return responseJson;
-  // }
-
+  //function with different cases and their respective returns.
   dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:

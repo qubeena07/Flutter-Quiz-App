@@ -24,38 +24,36 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _showPassword = true;
 
+  //controller for textform field of email and password
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  FocusNode emailFocusNode = FocusNode();
-  FocusNode passwordFocusNode = FocusNode();
-
+  // function to sign in with google with firebase.
   Future<void> signInWithGoogle() async {
     await AuthenticationViewModel().signInWithGoogle();
-
+    //use of shared preference for one time login in and save of user email.
     final sp = await SharedPreferences.getInstance();
     sp.setString(userEmail, FirebaseAuth.instance.currentUser!.email!);
     sp.setBool(loginFlag, true);
-
+    //navigtaion to welcome screen after sucess.
     Future.delayed(const Duration(seconds: 1), () {
       Navigator.pushReplacementNamed(context, RoutesName.welcomeScreen);
     });
   }
 
+  //dispose of value of email and password controller after use.
   @override
   void dispose() {
     super.dispose();
 
     emailController.dispose();
     passwordController.dispose();
-
-    emailFocusNode.dispose();
-    passwordFocusNode.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //body content of login screens witn text form fields and buttons.
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -166,6 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     _showPassword = !_showPassword;
                                   });
                                 },
+                                //display of visibility of password on icon pressed
                                 child: Icon(
                                     _showPassword
                                         ? Icons.visibility_off
@@ -179,15 +178,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: 25.h,
                     ),
-                    RoundButton(title: "Login", onPress: signIn
-                        // Navigator.pushNamed(context, RoutesName.home);
-                        )
+                    //button for login with login functionality on pressed.
+                    RoundButton(title: "Login", onPress: signIn)
                   ],
                 ),
               ),
               SizedBox(
                 height: 10.h,
               ),
+              //forgot password text with navigation to forgot password screen
               GestureDetector(
                 child: Text("Forgot Password ?",
                     style: TextStyle(
@@ -202,6 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: 8.h,
               ),
+              //navigates to the register screen for new users
               RichText(
                 text: TextSpan(
                   text: "Don't have an account? ",
@@ -226,23 +226,10 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: 30.h,
               ),
-              RoundButton(title: "Login with Google", onPress: signInWithGoogle
-                  // Future.delayed(const Duration(seconds: 5));
-                  // Navigator.pushReplacementNamed(
-                  //     context, RoutesName.welcomeScreen);
 
-                  // onPress: () async {
-                  //   final provider = Provider.of<GoogleSignInViewModel>(context,
-                  //       listen: false);
-                  //   if (await provider.googleLogin()) {
-                  //     Navigator.pushReplacementNamed(
-                  //         context, RoutesName.welcomeScreen);
-                  //   } else {
-                  //     Navigator.pushReplacementNamed(
-                  //         context, RoutesName.loginScreen);s
-                  //   }
-                  // }
-                  )
+              //button for login with google with sign in with google functionality on pressed.
+
+              RoundButton(title: "Login with Google", onPress: signInWithGoogle)
             ],
           ),
         ),
@@ -250,14 +237,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  //function for the login with firebase using email and password
   Future signIn() async {
-    // Future.delayed(const Duration(seconds: 3));
-    // showDialog(
-    //     context: context,
-    //     barrierDismissible: false,
-    //     builder: (context) => const Center(
-    //           child: CircularProgressIndicator(),
-    //         ));
     try {
       FocusScope.of(context).unfocus();
       await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -276,9 +257,6 @@ class _LoginScreenState extends State<LoginScreen> {
       Utils.flushBarErrorMessage(
           "Username or Password is not correct", context);
       log(e.toString(), name: "error in login screen");
-      //Utils.flushBarErrorMessage(e.toString(), context);
-      // print(e);
     }
-    // navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }

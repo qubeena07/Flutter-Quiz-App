@@ -12,14 +12,16 @@ class ReadyScreen extends StatefulWidget {
 
 class _ReadyScreenState extends State<ReadyScreen>
     with SingleTickerProviderStateMixin {
+  //decalre of private controller for animation
   late AnimationController? _controller;
 
+  //initially run the function and start of animation when the function is called
   @override
   void initState() {
     super.initState();
 
     _controller = AnimationController(vsync: this);
-
+    //navigation to homescreen after completion of animation
     _controller!.addStatusListener((status) async {
       if (status == AnimationStatus.completed) {
         Navigator.pushReplacementNamed(context, RoutesName.homeScreen);
@@ -27,6 +29,7 @@ class _ReadyScreenState extends State<ReadyScreen>
     });
   }
 
+  //dispose of animation controller after use
   @override
   void dispose() {
     _controller!.dispose();
@@ -36,6 +39,7 @@ class _ReadyScreenState extends State<ReadyScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //body contents of ready screen using lottie package for animation
       body: Center(
         child: Lottie.asset(
           "assets/ready.json",
