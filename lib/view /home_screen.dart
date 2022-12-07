@@ -21,17 +21,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  QuestionAnswerViewModel questionAnswerViewModel = QuestionAnswerViewModel();
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
   ScoreViewModel scoreViewModel = ScoreViewModel();
+  NotificationViewModel notificationViewModel = NotificationViewModel();
+
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  QuestionAnswerViewModel questionAnswerViewModel = QuestionAnswerViewModel();
   static const maxSeconds = 120;
   int wrongAnswerCount = 0;
   int seconds = maxSeconds;
   Timer? timer;
   int solutionIndicator = -1;
   List<String> indexList = ['a)', 'b)', 'c)', 'd)'];
-  NotificationViewModel notificationViewModel = NotificationViewModel();
 
   void startTimer() {
     Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -41,10 +41,9 @@ class _HomeScreenState extends State<HomeScreen> {
         seconds = maxSeconds;
         notificationViewModel.sendNotification(
             "Congratulations", "Your score is ${scoreViewModel.totalScore}");
+        log(scoreViewModel.totalScore.toString(), name: "Total Score");
         scoreViewModel.resetTotalScore();
         scoreViewModel.setQuestionNum();
-        // questionAnswerViewModel.dispose();
-
       } else {
         setState(() => seconds--);
       }
@@ -53,13 +52,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    displayQuestion();
+    _displayQuestion();
     startTimer();
     super.initState();
     notificationViewModel.initializeNotification();
   }
 
-  displayQuestion() async {
+//private function to display question using view model
+  _displayQuestion() async {
     await questionAnswerViewModel.fetchQuestionAnswerListApi();
   }
 
@@ -234,23 +234,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             FontWeight.w400,
                                                         fontSize: 15.sp),
                                                   ),
-
-                                                  //tileColor: Colors.blue,
-                                                  // selectedColor: Colors.green,
-
-                                                  // selectedTileColor:
-                                                  //     Colors.green,
                                                   onTap: () async {
                                                     setState(() {
                                                       solutionIndicator = value
                                                           .displaySolution
                                                           .indexOf(e);
                                                     });
-                                                    log(
-                                                        wrongAnswerCount
-                                                            .toString(),
-                                                        name:
-                                                            "wrong answer count ");
                                                     if (wrongAnswerCount <= 2) {
                                                       if (value
                                                               .questionAnswerList
@@ -259,7 +248,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           e) {
                                                         scoreViewModel
                                                             .setTotalScore();
-
                                                         scoreViewModel
                                                             .setQuestionNum();
                                                         Future.delayed(
@@ -274,8 +262,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             });
                                                           },
                                                         );
-
-                                                        // answerIndicator = false;
                                                       } else {
                                                         Future.delayed(
                                                           const Duration(

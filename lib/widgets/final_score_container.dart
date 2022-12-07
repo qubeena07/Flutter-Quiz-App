@@ -31,6 +31,7 @@ class FinalScoreContainer extends StatelessWidget {
             "Your total score is $finalScore",
             style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w300),
           ),
+
           SizedBox(
             height: 20.h,
           ),

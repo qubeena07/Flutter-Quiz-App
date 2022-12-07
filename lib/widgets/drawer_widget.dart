@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -70,6 +72,7 @@ class DrawerWidget extends StatelessWidget {
               AuthenticationViewModel().signOut();
               final sp = await SharedPreferences.getInstance();
               sp.setBool(loginFlag, false);
+              log(DateTime.now().toString(), name: "LogOut Date Time");
 
               // ignore: use_build_context_synchronously
               Navigator.pushReplacementNamed(context, RoutesName.loginScreen);

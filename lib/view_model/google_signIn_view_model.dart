@@ -11,17 +11,13 @@ class AuthenticationViewModel {
 
   Future<User?> signInWithGoogle() async {
     final googleUser = await googleSignIn.signIn();
-
     if (googleUser != null) {
       final googleAuth = await googleUser.authentication;
       if (googleAuth.idToken != null) {
-        //  Navigator.pushReplacementNamed(
-        //                 context, RoutesName.welcomeScreen);
         final userCredential = await _firebaseAuth.signInWithCredential(
             GoogleAuthProvider.credential(
                 idToken: googleAuth.idToken,
                 accessToken: googleAuth.accessToken));
-
         return userCredential.user;
       }
     } else {

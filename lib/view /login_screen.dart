@@ -249,6 +249,7 @@ class _LoginScreenState extends State<LoginScreen> {
       final sp = await SharedPreferences.getInstance();
       sp.setString(userEmail, FirebaseAuth.instance.currentUser!.email!);
       sp.setBool(loginFlag, true);
+      log(DateTime.now().toString(), name: "Login Date Time");
 
       // ignore: use_build_context_synchronously
       await Navigator.pushNamedAndRemoveUntil(
