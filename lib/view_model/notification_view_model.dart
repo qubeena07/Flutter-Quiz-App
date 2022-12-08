@@ -5,7 +5,7 @@ class NotificationViewModel {
       FlutterLocalNotificationsPlugin();
 //image for notification in android.
   final AndroidInitializationSettings _androidInitializationSettings =
-      const AndroidInitializationSettings("ic_launcher.png");
+      const AndroidInitializationSettings("mipmap/ic_launcher");
 //initilazie of notification
   void initializeNotification() async {
     InitializationSettings initializationSettings =

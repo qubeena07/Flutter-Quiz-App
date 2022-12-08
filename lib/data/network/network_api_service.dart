@@ -14,7 +14,7 @@ class NetworkApiService extends BaseApiServices {
     try {
       //getting the response from given api with the timeout duration 20 seconds.
       final response =
-          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 20));
+          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 60));
       //return of the response in return type of method.
       responseJson = returnResponse(response);
     } on SocketException {

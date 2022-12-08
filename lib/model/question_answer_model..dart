@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 //model fot question and answer api to get reponses from api
 class QuestionAnswerModel {
   String? question;
